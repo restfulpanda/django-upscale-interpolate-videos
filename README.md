@@ -13,12 +13,12 @@
     pip install -r requirements.txt
 3. Запустите контейнер Docker с redis
 4. В файле /config/settings.py измените порт подключения к редис в переменных окружения:
-    - CELERY_BROKER_URL = 'redis://<user>:<pass>@127.0.0.1:<port>/0'
-    - CELERY_RESULT_BACKEND = 'redis://<user>:<pass>@127.0.0.1:<port>/1'
+    - CELERY_BROKER_URL = 'redis://user:pass@127.0.0.1:port/0'
+    - CELERY_RESULT_BACKEND = 'redis://user:pass@127.0.0.1:port/1'
     - CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-           "LOCATION": "redis://127.0.0.1:<port>",
+           "LOCATION": "redis://127.0.0.1:port",
         }
      }
 5. Запустите сервер celery:
