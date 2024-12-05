@@ -82,10 +82,9 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
-CELERY_TASK_ALWAYS_EAGER = True
-CELERY_TASK_EAGER_PROPAGATES = True
+CELERY_BROKER_URL = 'redis://admin:r3wert@127.0.0.1:6380/0'
+CELERY_RESULT_BACKEND = 'redis://admin:r3wert@127.0.0.1:6380/1'
+broker_connection_retry_on_startup = True
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -103,11 +102,8 @@ DATABASES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",  # Подключение к Redis
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6380",
     }
 }
 
