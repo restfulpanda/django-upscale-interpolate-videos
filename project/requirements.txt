@@ -1,0 +1,10 @@
+Django==4.1.4
+celery
+redis
+flower
+
+djangorestframework
+drf_yasg
+
+pytest==7.2.0
+pytest-django==4.5.2
