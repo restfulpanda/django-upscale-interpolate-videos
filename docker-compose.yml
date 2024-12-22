@@ -1,52 +1,114 @@
-version: '3.11'
+name: uiweb
+
+volumes:
+  video_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
 
 services:
-  web:
-    build: ./project
+  django:
+    build: ./builds/django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./project/:/usr/src/app/
+      - ./builds/django/:/app/
+      - video_data:/video_data
     ports:
-      - 1337:8000
+      - 8000:8000
     environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+      POSTGRES_HOST: postgres-db
+      DEBUG: 1
+      SECRET_KEY: dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+      CELERY_BROKER: redis://redis:6379/0
+      CELERY_BACKEND: redis://redis:6379/0
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
+      VIDEO_STORAGE_DIR: /video_data
     depends_on:
       - redis
+      - postgres-db
+    networks:
+      - app_network
+
+  postgres-db:
+    image: postgres
+    volumes:
+      - ./UIDataBase/:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: 'UIDataBase'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: '111'
+      POSTGRES_ROOT_PASSWORD: '111'
+    restart: always
+    networks:
+      - app_network
+    
 
   celery:
-    build: ./project
+    build: ./builds/django
     command: celery -A core worker --loglevel=info --logfile=logs/celery.log
     volumes:
-      - ./project:/usr/src/app
+      - ./builds/django/:/app/
+      - video_data:/video_data
+      - ./logs/celery:/app/logs
     environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+      DEBUG: 1
+      SECRET_KEY: dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+      CELERY_BROKER: redis://redis:6379/0
+      CELERY_BACKEND: redis://redis:6379/0
     depends_on:
-      - web
+      - django
       - redis
+    networks:
+      - app_network
 
   redis:
     image: redis:5-alpine
+    networks:
+      - app_network
   
   dashboard:
-    build: ./project
-    command:  flower -A core --port=5555 --broker=redis://redis:6379/0
+    build: ./builds/django
+    command: celery --broker=redis://redis:6379/0 flower --port=5555
     ports:
       - 5555:5555
     environment:
-      - DEBUG=1
-      - SECRET_KEY=dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+      DEBUG: 1
+      SECRET_KEY: dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+      CELERY_BROKER: redis://redis:6379/0
+      CELERY_BACKEND: redis://redis:6379/0
     depends_on:
-      - web
+      - django
       - redis
       - celery
+    networks:
+      - app_network
+
+  practical-rife:
+   build: ./builds/rife
+   command: python3 /app/server.py
+   volumes:
+     - video_data:/video_data
+   ports:
+     - 5000:5000
+   runtime: nvidia
+   networks:
+      - app_network
+  
+  upscale:
+   build: ./builds/upscale
+   command: python3 /app/server.py
+   volumes:
+     - video_data:/video_data
+   ports:
+     - 5001:5001
+   runtime: nvidia
+   networks:
+      - app_network

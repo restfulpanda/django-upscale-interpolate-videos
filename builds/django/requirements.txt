@@ -1,0 +1,14 @@
+django==4.1.4
+celery
+redis
+flower
+
+djangorestframework
+djangorestframework-simplejwt
+drf_yasg
+
+requests==2.32.3
+
+pytest==7.2.0
+pytest-django==4.5.2
+psycopg2-binary
