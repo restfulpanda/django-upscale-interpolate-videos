@@ -18,7 +18,7 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Directory for storaging video
-VIDEO_STORAGE_DIR = os.environ.get('VIDEO_STORAGE_DIR', '/video_data')
+VIDEO_STORAGE_DIR = os.environ.get('VIDEO_STORAGE_DIR', '/media')
 
 MEDIA_ROOT = VIDEO_STORAGE_DIR
 MEDIA_URL = '/media/'

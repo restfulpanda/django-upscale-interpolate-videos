@@ -2,6 +2,10 @@ import requests
 from celery import shared_task
 from logic.models import Video
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 @shared_task
 def process_video(video_id):
@@ -12,8 +16,9 @@ def process_video(video_id):
     try:
         input_path = video.original_video.path
         output_path = input_path.replace('original', 'processed')
-
-        # try:
+        
+        logger.debug(input_path)
+        # try:  
         #     output_path = output_path.strip()
 
         #     sep = '/' if '/' in output_path else '\\'
@@ -36,11 +41,11 @@ def process_video(video_id):
         response_interpolation = requests.post("http://practical-rife:5000/interpolate", json=payload_interpolation)
 
         if response_interpolation.status_code == 200:
-            video.processed_video = output_path
+            video.processed_video = output_path.replace('/media', '')
             video.status = 'done'
         else:
             video.status = 'failed'
-            print(response_interpolation.json())
+            logger.info(response_interpolation.json())
 
         # if response_interpolation.status_code == 200:
         #     payload_upscale = {

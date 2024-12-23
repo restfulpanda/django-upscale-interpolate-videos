@@ -7,7 +7,7 @@ from pathlib import Path
 app = Flask(__name__)
 
 # Пути для volumes
-VIDEO_STORAGE_DIR = Path(__file__).resolve().parent.parent.joinpath("video_data/")
+# VIDEO_STORAGE_DIR = Path(__file__).resolve().parent.parent.joinpath("media/")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -16,10 +16,13 @@ logger = logging.getLogger(__name__)
 def interpolate():
     try:
         logger.info("Starting video interpolation...")
+
         # Получение данных из запроса
         input_path = request.json.get('input_path')
         output_path = request.json.get('output_path')
         scale = request.json.get('multi', 2)  # Опциональный параметр
+
+        logger.info("Путь до файла: ", input_path)
 
         if not input_path or not output_path:
             return jsonify({"error": "input_path and output_path are required"}), 400
