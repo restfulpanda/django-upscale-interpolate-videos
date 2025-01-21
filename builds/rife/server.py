@@ -30,10 +30,6 @@ def interpolate():
         if not os.path.exists(input_path):
             return jsonify({"error": f"Input video {input_path} does not exist"}), 404
 
-        # Команда для запуска inference
-        # command = [
-        #     "ls", "-la"
-        # ]
         command = [
             "python3", "inference_video.py",
             "--video", input_path,
