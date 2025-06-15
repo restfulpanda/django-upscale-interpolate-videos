@@ -1,4 +1,4 @@
 pytest
 pytest-django
-mypy
+pylint
 black
