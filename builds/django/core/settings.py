@@ -103,7 +103,7 @@ DATABASES = {
         "NAME": "UIDataBase",
         "USER": "postgres",
         "PASSWORD": "111",
-        "HOST": os.environ.get("POSTGRES_HOST", "postgres-db"),
+        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
         "PORT": "5432",
     }
 }

@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import ProtectedView
 
+from .views import RegistrationAPIView
+
+app_name = 'authentication'
 urlpatterns = [
-    path("protected/", ProtectedView.as_view(), name="protected"),
+    path('users/', RegistrationAPIView.as_view()),
 ]

@@ -8,7 +8,6 @@ from drf_yasg import openapi
 
 from rest_framework.routers import DefaultRouter
 
-from logic.views import VideoViewSet
 from tasks.views import get_video_status
 
 schema_view = get_schema_view(
@@ -19,18 +18,16 @@ schema_view = get_schema_view(
     public=True,
 )
 
-router = DefaultRouter()
-router.register(r"videos", VideoViewSet, basename="upload_video")
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("tasks/<task_id>/status/", get_video_status, name="get_video_status"),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("", include(router.urls)),
+    path("", include('apps.authentication.urls', namespace='authentication')),
+    path("", include('apps.logic.urls', namespace='process_videos')),
+    path("", include('apps.tasks.urls', namespace='tasks')),
 ]
 
 if settings.DEBUG:

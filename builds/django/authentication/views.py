@@ -1,9 +1,23 @@
-from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
-class ProtectedView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def get(self, request, format=None):
-        return Response({'message': 'This is a protected view accessible only with a valid JWT'})
+from .serializers import RegistrationSerializer
+
+
+class RegistrationAPIView(APIView):
+    """
+    Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
+    """
+    permission_classes = (AllowAny,)
+    serializer_class = RegistrationSerializer
+
+    def post(self, request):
+        user = request.data.get('user', {})
+
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
