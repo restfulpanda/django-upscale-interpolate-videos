@@ -1,0 +1,4 @@
+pytest
+pytest-django
+mypy
+black

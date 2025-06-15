@@ -2,14 +2,8 @@ django
 celery
 redis
 flower
-
 djangorestframework
 djangorestframework-simplejwt
 drf_yasg
-
 requests
-
-pytest
-pytest-django
 psycopg2-binary
-pylint

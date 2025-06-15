@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# python manage.py flush --no-input
-python manage.py migrate
-python manage.py makemigrations
+set -e
+
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
 exec "$@"

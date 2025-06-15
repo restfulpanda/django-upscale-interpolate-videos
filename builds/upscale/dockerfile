@@ -1,29 +1,24 @@
-FROM python:3.11-slim AS builder
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget gcc libffi-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-FROM nvidia/cuda:12.4.0-runtime-ubuntu20.04 AS runtime
+FROM nvidia/cuda:12.4.0-runtime-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git python3 python3-pip ffmpeg libgl1 libsm6 libxext6 libglvnd-dev libxrender-dev && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*    
-
-RUN apt-get update && apt-get install -y ffmpeg
-
-COPY --from=builder /usr/local/lib/python3.11 /usr/local/lib/python3.11
+    python3 python3-pip git ffmpeg \
+    libgl1 libsm6 libxext6 libglvnd-dev libxrender-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY ./req.txt .
+COPY req.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r req.txt
 
-COPY /src/ .
-COPY /models/ .
+COPY ./src/ ./src/
+COPY ./models/ ./models/
+COPY server_upscale.py .
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
