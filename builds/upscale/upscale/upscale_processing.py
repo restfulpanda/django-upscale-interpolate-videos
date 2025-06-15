@@ -2,6 +2,7 @@
 Copyright (c) 2022, David Lee
 Author: David Lee
 """
+
 import logging
 import os
 import subprocess
@@ -144,7 +145,7 @@ def get_crop_detect(ffmpeg, input_file, duration):
         interval = int(duration / 120)
         crop_list = []
 
-        for i in range(10,110):
+        for i in range(10, 110):
             cmds = [
                 ffmpeg,
                 "-hide_banner",

@@ -4,21 +4,24 @@ from logic.models import Video
 import os
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 @shared_task
 def process_video(video_id):
     video = Video.objects.get(id=video_id)
-    video.status = 'processing'
+    video.status = "processing"
     video.save()
 
     try:
         input_path = video.original_video.path
-        output_path = input_path.replace('original', 'processed')
-        
+        output_path = input_path.replace("original", "processed")
+
         logger.debug(input_path)
-        # try:  
+        # try:
         #     output_path = output_path.strip()
 
         #     sep = '/' if '/' in output_path else '\\'
@@ -38,13 +41,15 @@ def process_video(video_id):
             "input_path": input_path,
             "output_path": output_path,
         }
-        response_interpolation = requests.post("http://practical-rife:5000/interpolate", json=payload_interpolation)
+        response_interpolation = requests.post(
+            "http://practical-rife:5000/interpolate", json=payload_interpolation
+        )
 
         if response_interpolation.status_code == 200:
-            video.processed_video = output_path.replace('/media', '')
-            video.status = 'done'
+            video.processed_video = output_path.replace("/media", "")
+            video.status = "done"
         else:
-            video.status = 'failed'
+            video.status = "failed"
             logger.info(response_interpolation.json())
 
         # if response_interpolation.status_code == 200:
@@ -64,7 +69,7 @@ def process_video(video_id):
         #     video.status = 'failed'
         #     print(response_interpolation.json())  # Для дебага
     except Exception as e:
-        video.status = 'failed'
+        video.status = "failed"
         print(f"Error during processing: {e}")
     finally:
         video.save()

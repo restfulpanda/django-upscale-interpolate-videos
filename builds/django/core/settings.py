@@ -18,10 +18,10 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Directory for storaging video
-VIDEO_STORAGE_DIR = os.environ.get('VIDEO_STORAGE_DIR', '/media')
+VIDEO_STORAGE_DIR = os.environ.get("VIDEO_STORAGE_DIR", "/media")
 
 MEDIA_ROOT = VIDEO_STORAGE_DIR
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -37,7 +37,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Application definition
 
@@ -47,13 +47,13 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    'django.contrib.staticfiles',
+    "django.contrib.staticfiles",
     "tasks",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
     "logic.apps.LogicConfig",
-    "login.apps.LoginConfig"
+    "login.apps.LoginConfig",
 ]
 
 MIDDLEWARE = [
@@ -85,9 +85,9 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        )
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
 }
 
 WSGI_APPLICATION = "core.wsgi.application"
@@ -97,13 +97,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'UIDataBase',
-        'USER': 'postgres',
-        'PASSWORD': '111',
-        'HOST': os.environ.get('POSTGRES_HOST', 'postgres-db'),
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "UIDataBase",
+        "USER": "postgres",
+        "PASSWORD": "111",
+        "HOST": os.environ.get("POSTGRES_HOST", "postgres-db"),
+        "PORT": "5432",
     }
 }
 
@@ -145,15 +145,15 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=3650),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=3650),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'BLACKLIST_TOKEN_CHECKS': ['access', 'refresh'],
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3650),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3650),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "BLACKLIST_TOKEN_CHECKS": ["access", "refresh"],
 }

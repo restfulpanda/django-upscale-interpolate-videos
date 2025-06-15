@@ -11,7 +11,7 @@ import sys
 import zipfile
 import glob
 
-from upscale_processing import get_metadata, merge_frames, merge_files
+from upscale.upscale_processing import get_metadata, merge_frames, merge_files
 
 
 def merge_only(

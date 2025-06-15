@@ -2,6 +2,7 @@
 Copyright (c) 2022, David Lee
 Author: David Lee
 """
+
 import logging
 import os
 import sys
@@ -148,12 +149,16 @@ def process_image(
             if scale > 1:
                 shutil.move(
                     os.path.join(output_dir, str(frame) + ".png"),
-                    os.path.join(output_dir, str(frame) + "." + ".".join(models) + ".png"),
+                    os.path.join(
+                        output_dir, str(frame) + "." + ".".join(models) + ".png"
+                    ),
                 )
             else:
                 shutil.move(
                     os.path.join(output_dir, str(frame) + ".denoise.png"),
-                    os.path.join(output_dir, str(frame) + "." + ".".join(models) + ".png"),
+                    os.path.join(
+                        output_dir, str(frame) + "." + ".".join(models) + ".png"
+                    ),
                 )
 
     logging.info("Completed")

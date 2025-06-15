@@ -13,7 +13,7 @@ import zipfile
 import shutil
 
 
-from upscale_processing import (
+from upscale.upscale_processing import (
     get_metadata,
     get_crop_detect,
     calc_batches,
@@ -187,7 +187,9 @@ def upscale_only(
 
         if upscale_dir:
             shutil.copyfile("metadata.json", os.path.join(upscale_dir, "metadata.json"))
-            shutil.copyfile("crop_detect.txt", os.path.join(upscale_dir, "crop_detect.txt"))
+            shutil.copyfile(
+                "crop_detect.txt", os.path.join(upscale_dir, "crop_detect.txt")
+            )
 
         logging.info("Starting upscale processing...")
 

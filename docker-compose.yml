@@ -93,7 +93,7 @@ services:
 
   practical-rife:
    build: ./builds/rife
-   command: python3 /app/server.py
+   command: python3 /app/server_interpolation.py
    volumes:
      - media:/media
    ports:
@@ -104,7 +104,7 @@ services:
   
   upscale:
    build: ./builds/upscale
-   command: python3 /app/server.py
+   command: python3 /app/server_upscale.py
    volumes:
      - media:/media
    ports:

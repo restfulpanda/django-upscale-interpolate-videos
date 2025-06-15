@@ -12,7 +12,7 @@ import sys
 
 from wakepy import keep
 
-from upscale_processing import (
+from upscale.upscale_processing import (
     get_metadata,
     get_crop_detect,
     process_model,
@@ -254,7 +254,9 @@ def fix_frames(
 
         if scale == 1:
             for frame in bad_frames:
-                os.rename(str(frame) + "." + input_file_tag + ".png", str(frame) + ".png")
+                os.rename(
+                    str(frame) + "." + input_file_tag + ".png", str(frame) + ".png"
+                )
         else:
             upscale_frames(
                 bad_frames,

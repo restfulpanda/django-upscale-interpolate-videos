@@ -2,6 +2,7 @@
 Copyright (c) 2022, David Lee
 Author: David Lee
 """
+
 import argparse
 
 from upscale.upscale_processing import process_file

@@ -14,19 +14,23 @@ from tasks.views import get_video_status
 schema_view = get_schema_view(
     openapi.Info(
         title="Video Processing API",
-        default_version='v1',
+        default_version="v1",
     ),
     public=True,
 )
 
 router = DefaultRouter()
-router.register(r'videos', VideoViewSet, basename='upload_video')
+router.register(r"videos", VideoViewSet, basename="upload_video")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("tasks/<task_id>/status/", get_video_status, name="get_video_status"),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('', include(router.urls))
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("", include(router.urls)),
 ]
 
 if settings.DEBUG:
