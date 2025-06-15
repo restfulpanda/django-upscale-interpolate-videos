@@ -1,7 +1,6 @@
 django
 celery
 redis
-flower
 djangorestframework
 djangorestframework-simplejwt
 drf_yasg
