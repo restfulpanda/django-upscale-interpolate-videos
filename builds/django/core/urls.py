@@ -6,10 +6,6 @@ from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from rest_framework.routers import DefaultRouter
-
-from tasks.views import get_video_status
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Video Processing API",
@@ -25,9 +21,9 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("", include('apps.authentication.urls', namespace='authentication')),
-    path("", include('apps.logic.urls', namespace='process_videos')),
-    path("", include('apps.tasks.urls', namespace='tasks')),
+    path("", include('authentication.urls', namespace='authentication')),
+    path("", include('logic.urls', namespace='process_videos')),
+    path("", include('tasks.urls', namespace='tasks')),
 ]
 
 if settings.DEBUG:

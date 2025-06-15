@@ -36,7 +36,7 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 ### SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost").split(" ")
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get("DJANGO_ALLOWED_HOSTS", "")]
 
 STATIC_URL = "static/"
 
