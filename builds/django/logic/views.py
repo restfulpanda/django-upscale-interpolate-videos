@@ -1,12 +1,15 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+
 from .models import Video
 from .serializers import VideoSerializer
 from tasks.sample_tasks import process_video
 
 
 class VideoViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated,)
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
