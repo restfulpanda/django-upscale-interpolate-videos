@@ -1,8 +1,8 @@
 import requests
+import logging
+
 from celery import shared_task
 from logic.models import Video
-import os
-import logging
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"

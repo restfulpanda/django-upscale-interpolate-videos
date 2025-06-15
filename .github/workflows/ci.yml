@@ -64,7 +64,7 @@ jobs:
         working-directory: builds/django
         run: |
           black --check .
-          mypy . 
+          pylint .
 
       - name: Build Django image
         run: docker build -t django-service ./builds/django

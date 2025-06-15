@@ -28,7 +28,7 @@ MEDIA_URL = "/media/"
 
 ### SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = 'dev_key'
+SECRET_KEY = "dev_key"
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
@@ -36,7 +36,11 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 ### SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get("DJANGO_ALLOWED_HOSTS", "")]
+ALLOWED_HOSTS = ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    os.environ.get("DJANGO_ALLOWED_HOSTS", ""),
+]
 
 STATIC_URL = "static/"
 
@@ -112,7 +116,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = "authentication.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -160,4 +164,3 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
     "BLACKLIST_TOKEN_CHECKS": ["access", "refresh"],
 }
-
