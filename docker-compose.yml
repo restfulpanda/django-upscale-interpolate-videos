@@ -20,7 +20,7 @@ services:
     environment:
       POSTGRES_HOST: postgres-db
       DEBUG: 1
-      SECRET_KEY: dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      SECRET_KEY: ${POSTGRES_DB}
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
       VIDEO_STORAGE_DIR: /media
@@ -35,10 +35,10 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: 'UIDataBase'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: '111'
-      POSTGRES_ROOT_PASSWORD: '111'
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     networks:
       - app_network
@@ -54,7 +54,7 @@ services:
     environment:
       POSTGRES_HOST: postgres-db
       DEBUG: 1
-      SECRET_KEY: dbaa1_i7%*3r9-=z-+_mz4r-!qeed@(-a_r(g@k8jo8y3r27%m
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       - django
       - redis

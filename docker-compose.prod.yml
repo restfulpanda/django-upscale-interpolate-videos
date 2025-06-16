@@ -16,7 +16,7 @@ networks:
 
 services:
   django:
-    build: ./builds/django
+    image: crpp4n73j7p3lv151eeo.docker.yandexcloud.net/django-service:latest
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     environment:
       SECRET_KEY: ${SECRET_KEY}
@@ -44,7 +44,7 @@ services:
       - app_network
 
   celery:
-    build: ./builds/django
+    image: crpp4n73j7p3lv151eeo.docker.yandexcloud.net/django-service:latest
     command: celery -A core worker --loglevel=info --logfile=/app/logs/celery.log
     env_file:
       - ./builds/django/.env
@@ -67,7 +67,7 @@ services:
       - app_network
 
   practical-rife:
-    build: ./builds/rife
+    image: crpp4n73j7p3lv151eeo.docker.yandexcloud.net/practical-rife:latest
     command: python3 /app/server_interpolation.py
     volumes:
       - media:/media
@@ -79,7 +79,7 @@ services:
       - app_network
 
   upscale:
-    build: ./builds/upscale
+    image: crpp4n73j7p3lv151eeo.docker.yandexcloud.net/upscale:latest
     command: python3 /app/server_upscale.py
     volumes:
       - media:/media
