@@ -38,6 +38,7 @@ jobs:
       POSTGRES_PASSWORD: 111
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - name: Checkout code
