@@ -43,6 +43,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             set -ex
+            echo "Docker login..."
+            echo "${{ secrets.YC_OAUTH }}" | docker login --username oauth --password-stdin cr.yandex
 
             echo "Pulling images..."
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest

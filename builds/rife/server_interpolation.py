@@ -44,7 +44,7 @@ def interpolate():
         output_path = request.json.get("output_path")
         scale = request.json.get("multi", 2)
 
-        logger.info("Path to the file: ", input_path)
+        logger.info(f"Path to the file: {input_path}")
 
         if not input_path or not output_path:
             return jsonify({"error": "input_path and output_path are required"}), 400
@@ -54,7 +54,7 @@ def interpolate():
 
         command = [
             "python3",
-            "/inference_video.py",
+            "/app/src/inference_video.py",
             "--video",
             input_path,
             "--output",
@@ -68,7 +68,7 @@ def interpolate():
             return jsonify({"error": result.stderr}), 500
 
         logger.info("Interpolation completed successfully.")
-        logger.info("Path to the file: ", output_path)
+        logger.info(f"Path to the file: {output_path}")
         return jsonify({"status": "success", "output": output_path})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
