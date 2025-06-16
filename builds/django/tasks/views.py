@@ -1,11 +1,14 @@
 from celery.result import AsyncResult
-from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-@api_view(["GET"])
-def get_video_status(request, task_id):
-    result = AsyncResult(task_id)
-    return Response(
-        {"task_id": task_id, "status": result.status, "result": result.result}
-    )
+class VideoStatusView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, task_id):
+        result = AsyncResult(task_id)
+        return Response(
+            {"task_id": task_id, "status": result.status, "result": result.result}
+        )

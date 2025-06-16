@@ -6,9 +6,6 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-# Пути для volumes
-# VIDEO_STORAGE_DIR = Path(__file__).resolve().parent.parent.joinpath("media/")
-
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -34,7 +31,7 @@ def interpolate():
 
         command = [
             "python3",
-            "inference_video.py",
+            ".\src\inference_video.py",
             "--video",
             input_path,
             "--output",

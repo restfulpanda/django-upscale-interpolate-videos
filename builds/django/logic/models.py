@@ -1,6 +1,6 @@
-from django.db import models
-from django.conf import settings
 import os
+
+from django.db import models
 
 
 def original_video_directory_path(instance, filename):

@@ -27,15 +27,20 @@ MEDIA_URL = "/media/"
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 ### SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "dev_key"
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 
 ### SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    os.environ.get("DJANGO_ALLOWED_HOSTS", ""),
+]
 
 STATIC_URL = "static/"
 
@@ -48,12 +53,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "tasks",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
+    "tasks.apps.TasksConfig",
     "logic.apps.LogicConfig",
-    "login.apps.LoginConfig",
+    "authentication.apps.AuthenticationConfig",
 ]
 
 MIDDLEWARE = [
@@ -102,7 +107,7 @@ DATABASES = {
         "NAME": "UIDataBase",
         "USER": "postgres",
         "PASSWORD": "111",
-        "HOST": os.environ.get("POSTGRES_HOST", "postgres-db"),
+        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
         "PORT": "5432",
     }
 }
@@ -110,6 +115,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = "authentication.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
