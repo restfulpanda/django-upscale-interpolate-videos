@@ -1,7 +1,5 @@
 version: "3.9"
 
-name: uiweb-prod
-
 volumes:
   media:
     driver: local

@@ -12,7 +12,6 @@ networks:
 services:
   django:
     build: ./builds/django
-    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./builds/django/:/app/
       - media:/media
@@ -78,6 +77,8 @@ services:
    ports:
      - 5000:5000
    runtime: nvidia
+   environment:
+      - NVIDIA_VISIBLE_DEVICES=all
    networks:
       - app_network
   

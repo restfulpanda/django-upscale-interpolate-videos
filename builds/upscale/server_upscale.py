@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -79,6 +79,7 @@ def interpolate():
         logger.info("Upscaling completed successfully.")
         return jsonify({"status": "success", "output": output_path})
     except Exception as e:
+        logger.error(f"Captured error: {e}")
         return jsonify({"error": str(e)}), 500
 
 

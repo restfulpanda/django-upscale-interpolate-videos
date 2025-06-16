@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def interpolate():
 
         command = [
             "python3",
-            "/app/src/inference_video.py",
+            "/app/inference_video.py",
             "--video",
             input_path,
             "--output",
@@ -71,6 +71,7 @@ def interpolate():
         logger.info(f"Path to the file: {output_path}")
         return jsonify({"status": "success", "output": output_path})
     except Exception as e:
+        logger.error(f"Captured error: {e}")
         return jsonify({"error": str(e)}), 500
 
 
