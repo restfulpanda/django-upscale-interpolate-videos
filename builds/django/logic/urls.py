@@ -1,12 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import VideoViewSet
+from django.urls import path
+from .views import VideoUploadAPIView
 
-router = DefaultRouter()
-router.register(r"process-video", VideoViewSet, basename="video")
-
-app_name = "process_videos"
-
+app_name = "process-videos"
 urlpatterns = [
-    path("", include(router.urls)),
+    path("upload/", VideoUploadAPIView.as_view(), name="process-video"),
 ]

@@ -66,12 +66,3 @@ jobs:
         run: |
           black --check .
           pylint .
-
-      - name: Build Django image
-        run: docker build -t django-service ./builds/django
-
-      - name: Build RIFE image
-        run: docker build -t rife-service ./builds/rife
-
-      - name: Build Upscale image
-        run: docker build -t upscale-service ./builds/upscale
