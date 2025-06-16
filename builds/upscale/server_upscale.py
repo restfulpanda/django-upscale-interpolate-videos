@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
 import os
 import subprocess
 import logging
+
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -10,16 +11,37 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
 @app.route("/ping", methods=["GET"])
 def ping():
+    """
+    Handles the ping route.
+
+    Returns:
+        A tuple containing a JSON object with a "pong" message and an HTTP status code 200.
+    """
     return jsonify({"message": "pong"}), 200
+
 
 @app.route("/health", methods=["GET"])
 def test():
+    """
+    Return a JSON response indicating that the Flask app is running.
+
+    Returns:
+        tuple: A tuple containing a JSON response with status and message, and the HTTP 200 status code.
+    """
     return jsonify({"status": "ok", "message": "Flask app is running"}), 200
+
 
 @app.route("/upscale", methods=["POST"])
 def interpolate():
+    """
+    Performs video upscaling by invoking an external process.
+    Extracts input and output paths, along with the scaling factor, from the request JSON.
+    Validates input paths and uses a subprocess call to execute the upscale command.
+    Returns a JSON response indicating success or detailing any encountered errors.
+    """
     try:
         logger.info("Starting video upscale...")
         input_path = request.json.get("input_path")
@@ -46,7 +68,7 @@ def interpolate():
             "-s",
             str(scale),
         ]
-        
+
         # python3 /app/src/upscale_video.py -i /media/woman1.mp4 -o /media/woman1_x2.mp4 -f /usr/bin/ffmpeg -e "" -m /app/models/ -s 2
 
         result = subprocess.run(command, capture_output=True, text=True)
