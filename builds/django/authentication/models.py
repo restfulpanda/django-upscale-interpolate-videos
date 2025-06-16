@@ -1,16 +1,11 @@
-import jwt
-
-from datetime import datetime, timedelta
-
-from django.conf import settings
-
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
-
 from django.db import models
+
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserManager(BaseUserManager):
@@ -63,11 +58,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def token(self):
         """
-        Позволяет получить токен пользователя путем вызова user.token, вместо
-        user._generate_jwt_token(). Декоратор @property выше делает это
-        возможным. token называется "динамическим свойством".
+        Позволяет получить access и refresh токены для пользователя.
+        Используется встроенный simplejwt.
         """
-        return self._generate_jwt_token()
+        refresh = RefreshToken.for_user(self)
+        return {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }
 
     def get_full_name(self):
         """
@@ -80,21 +78,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         """Аналогично методу get_full_name()."""
         return self.username
-
-    def _generate_jwt_token(self):
-        """
-        Генерирует веб-токен JSON, в котором хранится идентификатор этого
-        пользователя, срок действия токена составляет 1 день от создания
-        """
-        dt = datetime.now() + timedelta(days=1)
-
-        token = jwt.encode(
-            {
-                "user_id": self.pk,
-                "exp": int(dt.timestamp())
-            },
-            settings.SECRET_KEY,
-            algorithm="HS256",
-        )
-
-        return token

@@ -18,11 +18,11 @@ class RegistrationAPIView(APIView):
     serializer_class = RegistrationSerializer
 
     def post(self, request):
-        user = request.data.get("user", {})
+        user_data = request.data.get("user", {})
 
-        serializer = self.serializer_class(data=user)
+        serializer = self.serializer_class(data=user_data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        user = serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -33,9 +33,9 @@ class LoginAPIView(APIView):
     serializer_class = LoginSerializer
 
     def post(self, request):
-        user = request.data.get("user", {})
+        user_data = request.data.get("user", {})
 
-        serializer = self.serializer_class(data=user)
+        serializer = self.serializer_class(data=user_data)
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -48,14 +48,13 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.serializer_class(request.user)
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
-        serializer_data = request.data.get("user", {})
+        user_data = request.data.get("user", {})
 
         serializer = self.serializer_class(
-            request.user, data=serializer_data, partial=True
+            request.user, data=user_data, partial=True
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()

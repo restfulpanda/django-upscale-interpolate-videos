@@ -6,24 +6,26 @@ from .models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
     """Сериализация регистрации пользователя и создания нового."""
-
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
-
-    token = serializers.CharField(max_length=255, read_only=True)
+    token = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ["email", "username", "password", "token"]
 
+    def get_token(self, obj):
+        return obj.token
+
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        user = User.objects.create_user(**validated_data)
+        return user
 
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
+    token = serializers.DictField(read_only=True)
 
     def validate(self, data):
         email = data.get("email", None)
@@ -45,12 +47,15 @@ class LoginSerializer(serializers.Serializer):
         if not user.is_active:
             raise serializers.ValidationError("This user has been deactivated.")
 
-        return {"email": user.email, "username": user.username, "token": user.token}
+        return {
+            "email": user.email,
+            "username": user.username,
+            "token": user.token,
+        }
 
 
 class UserSerializer(serializers.ModelSerializer):
     """Ощуществляет сериализацию и десериализацию объектов User."""
-
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
 
     class Meta:

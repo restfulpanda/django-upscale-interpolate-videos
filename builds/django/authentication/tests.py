@@ -1,13 +1,19 @@
 import pytest
-import uuid
-from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
+from django.urls import reverse
+from django.test import TestCase
+from django.contrib.auth import get_user_model
 
-from authentication.models import User
+from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
+from .models import User
 
 pytestmark = pytest.mark.django_db
 
+User = get_user_model()
+
+def token_has_access_and_refresh(token):
+    return isinstance(token, dict) and "access" in token and "refresh" in token
 
 @pytest.fixture
 def user_data():
@@ -68,3 +74,67 @@ def test_user_update(auth_client):
 
     assert response.status_code == status.HTTP_200_OK
     assert response.data["username"] == "updateduser"
+
+class RegistrationSerializerTest(TestCase):
+    def test_create_user(self):
+        data = {
+            "email": "testuser@example.com",
+            "username": "testuser",
+            "password": "ComplexPass123"
+        }
+        serializer = RegistrationSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        user = serializer.save()
+        self.assertEqual(user.email, data["email"])
+        # Assuming token is generated as a dict with refresh and access tokens.
+        self.assertTrue(token_has_access_and_refresh(user.token))
+
+class LoginSerializerTest(TestCase):
+    def setUp(self):
+        self.password = "ComplexPass123"
+        self.user = User.objects.create_user(
+            email="loginuser@example.com", username="loginuser", password=self.password
+        )
+
+    def test_login_valid(self):
+        data = {
+            "email": self.user.email,
+            "password": self.password,
+        }
+        serializer = LoginSerializer(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        validated_data = serializer.validated_data
+        self.assertEqual(validated_data.get("email"), self.user.email)
+        self.assertEqual(validated_data.get("username"), self.user.username)
+        self.assertTrue(token_has_access_and_refresh(validated_data.get("token")))
+
+    def test_login_invalid(self):
+        data = {
+            "email": self.user.email,
+            "password": "WrongPassword",
+        }
+        serializer = LoginSerializer(data=data)
+        with self.assertRaises(Exception):
+            serializer.is_valid(raise_exception=True)
+
+class UserSerializerTest(TestCase):
+    def setUp(self):
+        self.password = "ComplexPass123"
+        self.user = User.objects.create_user(
+            email="updateuser@example.com", username="updateuser", password=self.password
+        )
+
+    def test_update_password_and_username(self):
+        new_password = "NewComplexPass456"
+        new_username = "updatedusername"
+        data = {
+            "username": new_username,
+            "password": new_password,
+        }
+        serializer = UserSerializer(instance=self.user, data=data, partial=True)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        updated_user = serializer.save()
+        self.assertEqual(updated_user.username, new_username)
+        self.assertTrue(updated_user.check_password(new_password))
+        self.assertTrue(token_has_access_and_refresh(updated_user.token))
+        
