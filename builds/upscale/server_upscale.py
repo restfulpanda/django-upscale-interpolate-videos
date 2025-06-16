@@ -33,7 +33,7 @@ def interpolate():
         # Команда для запуска inference
         command = [
             "python3",
-            "upscale_video.py",
+            ".\src\upscale_video.py",
             "-i",
             input_path,
             "-o",

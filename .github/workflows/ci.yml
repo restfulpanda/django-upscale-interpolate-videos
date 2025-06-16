@@ -58,6 +58,7 @@ jobs:
         working-directory: builds/django
         run: |
           python manage.py migrate
+          pytest
 
       - name: Lint and type-check
         working-directory: builds/django
