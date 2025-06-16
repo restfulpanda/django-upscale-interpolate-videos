@@ -21,17 +21,17 @@ jobs:
 
       - name: Build and push Django image
         run: |
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
+          docker build -t ${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
           docker push ${{ secrets.YC_REGISTRY }}/django-service:latest
 
       - name: Build and push RIFE image
         run: |
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
+          docker build -t ${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
           docker push ${{ secrets.YC_REGISTRY }}/rife-service:latest
 
       - name: Build and push Upscale image
         run: |
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
+          docker build -t ${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
           docker push ${{ secrets.YC_REGISTRY }}/upscale-service:latest
 
       - name: Set up SSH
