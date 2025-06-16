@@ -65,11 +65,13 @@ def interpolate():
             "/usr/bin/ffmpeg",
             "-m",
             "/app/models/",
+            "-e",
+            "libx264",
+            "-g",
+            "1,1,1,1",
             "-s",
             str(scale),
         ]
-
-        # python3 /app/src/upscale_video.py -i /media/woman1.mp4 -o /media/woman1_x2.mp4 -f /usr/bin/ffmpeg -e "" -m /app/models/ -s 2
 
         result = subprocess.run(command, capture_output=True, text=True)
         if result.returncode != 0:
