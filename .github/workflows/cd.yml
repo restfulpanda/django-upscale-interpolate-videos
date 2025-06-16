@@ -14,32 +14,24 @@ jobs:
 
       - name: Authenticate to Yandex Cloud Container Registry
         run: |
-          echo "${{ secrets.YC_KEY_JSON }}" > key.json
+          echo ${{ secrets.YC_OAUTH }}| docker login \
+            --username oauth \
+            --password-stdin \
+            cr.yandex
 
-          IAM_TOKEN=$(curl -s -X POST \
-            -H "Content-Type: application/json" \
-            -d @key.json \
-            https://iam.api.cloud.yandex.net/iam/v1/tokens | jq -r .iamToken)
-
-          echo $IAM_TOKEN | docker login \
-            -u iam \
-            --password-stdin ${{ secrets.YC_REGISTRY }}
-
-          rm key.json
-          
       - name: Build and push Django image
         run: |
-          docker build -t ${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
           docker push ${{ secrets.YC_REGISTRY }}/django-service:latest
 
       - name: Build and push RIFE image
         run: |
-          docker build -t ${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
           docker push ${{ secrets.YC_REGISTRY }}/rife-service:latest
 
       - name: Build and push Upscale image
         run: |
-          docker build -t ${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
           docker push ${{ secrets.YC_REGISTRY }}/upscale-service:latest
 
       - name: Set up SSH
@@ -54,7 +46,7 @@ jobs:
             docker pull ${{ secrets.YC_REGISTRY }}/rife-service:latest
             docker pull ${{ secrets.YC_REGISTRY }}/upscale-service:latest
 
-            export DJANGO_SECRET_KEY="${{ secrets.SECRET_KEY }}"
+            export SECRET_KEY="${{ secrets.SECRET_KEY }}"
             cd ~/deploy/app
             docker-compose down
             docker-compose -f docker-compose.prod.yml up -d
