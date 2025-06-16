@@ -18,9 +18,11 @@ class Video(models.Model):
         ("done", "Done"),
         ("failed", "Failed"),
     ]
-    original_video = models.FileField(upload_to=original_video_directory_path)
+    original_video = models.FileField(
+        upload_to=original_video_directory_path, max_length=255
+    )
     processed_video = models.FileField(
-        upload_to=processed_video_directory_path, null=True, blank=True
+        upload_to=processed_video_directory_path, null=True, blank=True, max_length=255
     )
 
     status = models.CharField(

@@ -21,9 +21,9 @@ urlpatterns = [
         SchemaView.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("", include("authentication.urls", namespace="authentication")),
-    path("", include("logic.urls", namespace="process_videos")),
-    path("", include("tasks.urls", namespace="tasks")),
+    path("users/", include("authentication.urls", namespace="authentication")),
+    path("videos/", include("logic.urls", namespace="process_videos")),
+    path("videos/", include("tasks.urls", namespace="tasks")),
 ]
 
 if settings.DEBUG:
