@@ -1,0 +1,91 @@
+version: "3.9"
+
+name: uiweb-prod
+
+volumes:
+  media:
+    driver: local
+  logs:
+    driver: local
+  pgdata:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  django:
+    build: ./builds/django
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres-db
+      - redis
+    restart: always
+    networks:
+      - app_network
+
+  postgres-db:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - app_network
+
+  celery:
+    build: ./builds/django
+    command: celery -A core worker --loglevel=info --logfile=/app/logs/celery.log
+    env_file:
+      - ./builds/django/.env
+    volumes:
+      - media:/media
+      - logs:/app/logs
+    depends_on:
+      - django
+      - redis
+    restart: always
+    networks:
+      - app_network
+
+  redis:
+    image: redis:5-alpine
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - app_network
+
+  practical-rife:
+    build: ./builds/rife
+    command: python3 /app/server_interpolation.py
+    volumes:
+      - media:/media
+    ports:
+      - "5000:5000"
+    runtime: nvidia
+    restart: always
+    networks:
+      - app_network
+
+  upscale:
+    build: ./builds/upscale
+    command: python3 /app/server_upscale.py
+    volumes:
+      - media:/media
+    ports:
+      - "5001:5001"
+    runtime: nvidia
+    restart: always
+    networks:
+      - app_network

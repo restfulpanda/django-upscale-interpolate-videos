@@ -5,30 +5,49 @@ on:
     branches: [ main ]
 
 jobs:
-  push-images:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Log in to DockerHub
+      - name: Log in to Yandex Container Registry
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ${{ secrets.YC_REGISTRY }}
 
-      - name: Build and push Django
+      - name: Build and push Django image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/django-service:latest ./builds/django
-          docker push ${{ secrets.DOCKER_USERNAME }}/django-service:latest
+          docker build -t ${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
+          docker push ${{ secrets.YC_REGISTRY }}/django-service:latest
 
-      - name: Build and push RIFE
+      - name: Build and push RIFE image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/rife-service:latest ./builds/rife
-          docker push ${{ secrets.DOCKER_USERNAME }}/rife-service:latest
+          docker build -t ${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
+          docker push ${{ secrets.YC_REGISTRY }}/rife-service:latest
 
-      - name: Build and push Upscale
+      - name: Build and push Upscale image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/upscale-service:latest ./builds/upscale
-          docker push ${{ secrets.DOCKER_USERNAME }}/upscale-service:latest
+          docker build -t ${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
+          docker push ${{ secrets.YC_REGISTRY }}/upscale-service:latest
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Pull and restart services on remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            docker pull ${{ secrets.YC_REGISTRY }}/django-service:latest
+            docker pull ${{ secrets.YC_REGISTRY }}/rife-service:latest
+            docker pull ${{ secrets.YC_REGISTRY }}/upscale-service:latest
+
+            export DJANGO_SECRET_KEY="${{ secrets.SECRET_KEY }}"
+            cd ~/deploy/app
+            docker-compose down
+            docker-compose -f docker-compose.prod.yml up -d
+          EOF
