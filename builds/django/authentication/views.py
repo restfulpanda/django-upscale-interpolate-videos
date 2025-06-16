@@ -53,9 +53,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     def update(self, request, *args, **kwargs):
         user_data = request.data.get("user", {})
 
-        serializer = self.serializer_class(
-            request.user, data=user_data, partial=True
-        )
+        serializer = self.serializer_class(request.user, data=user_data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

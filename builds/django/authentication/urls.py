@@ -8,5 +8,5 @@ urlpatterns = [
     path("user/", UserRetrieveUpdateAPIView.as_view(), name="get-user"),
     path("register/", RegistrationAPIView.as_view(), name="register"),
     path("login/", LoginAPIView.as_view(), name="login"),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

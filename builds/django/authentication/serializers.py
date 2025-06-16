@@ -6,6 +6,7 @@ from .models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
     """Сериализация регистрации пользователя и создания нового."""
+
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
     token = serializers.SerializerMethodField()
 
@@ -56,6 +57,7 @@ class LoginSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Ощуществляет сериализацию и десериализацию объектов User."""
+
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
 
     class Meta:
