@@ -31,7 +31,7 @@ def interpolate():
 
         command = [
             "python3",
-            ".\src\inference_video.py",
+            "\src\inference_video.py",
             "--video",
             input_path,
             "--output",
