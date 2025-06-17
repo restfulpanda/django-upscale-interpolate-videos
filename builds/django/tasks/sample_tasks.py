@@ -51,6 +51,8 @@ def process_video(video_id):
         #     raise Exception("Upscale step failed")
 
         video.status = "Done"
+        video.processed_video = interpolate_output_path
+        # video.processed_video = output_path
         result = {
             "video_id": video_id,
             "video_status": video.status,
