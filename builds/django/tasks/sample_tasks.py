@@ -19,7 +19,7 @@ def process_video(video_id):
     try:
         input_path = video.original_video.path
         interpolate_output_path = input_path.replace("processed", "interpolated")
-        output_path = input_path.replace("original", "processed")
+        # output_path = input_path.replace("original", "processed")
 
         # INTERPOLATION
         payload_interpolation = {
@@ -32,29 +32,32 @@ def process_video(video_id):
         
         if response_interpolation.status_code != 200:
             logger.error(f"Interpolation failed: {response_interpolation.text}")
+            video.status = "Failed"
             raise Exception("Interpolation step failed")
         
         # UPSCALING
 
-        payload_upscale = {
-            "input_path": interpolate_output_path,
-            "output_path": output_path,
-        }
-        response_upscale = requests.post(
-            "http://upscale:5001/upscale", json=payload_upscale
-        )
+        # payload_upscale = {
+        #     "input_path": interpolate_output_path,
+        #     "output_path": output_path,
+        # }
+        # response_upscale = requests.post(
+        #     "http://upscale:5001/upscale", json=payload_upscale
+        # )
 
-        if response_upscale.status_code != 200:
-            logger.error(f"Upscale failed: {response_upscale.text}")
-            raise Exception("Upscale step failed")
+        # if response_upscale.status_code != 200:
+        #     logger.error(f"Upscale failed: {response_upscale.text}")
+        #     video.status = "Failed"
+        #     raise Exception("Upscale step failed")
 
+        video.status = "Done"
         result = {
             "video_id": video_id,
             "video_status": video.status,
             "note": "To download video try /videos/download/{video_id}",
         }
     except Exception as e:
-        video.status = "failed"
+        video.status = "Failed"
         result = {
             "video_id": video_id,
             "video_status": video.status,
