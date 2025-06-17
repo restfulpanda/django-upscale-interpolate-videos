@@ -57,11 +57,10 @@ jobs:
               done ) & KEEP_PID=$!
 
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
-            kill $KEEP_PID
-
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
+            kill $KEEP_PID
           EOF
 
       - name: Restart containers on remote server

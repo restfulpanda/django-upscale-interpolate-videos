@@ -1,6 +1,7 @@
 django
 celery
 redis
+gunicorn
 djangorestframework
 djangorestframework-simplejwt
 drf_yasg
