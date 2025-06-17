@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @shared_task
 def process_video(video_id):
     video = Video.objects.get(id=video_id)
-    video.status = "processing"
+    video.status = "Processing"
     video.save()
 
     try:

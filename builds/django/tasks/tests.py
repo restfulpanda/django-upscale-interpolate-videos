@@ -23,7 +23,7 @@ def create_test_video_file(tmp_path):
 def create_video_instance(original_path, owner):
     return Video.objects.create(
         original_video=str(original_path),
-        status="pending",
+        status="Pending",
         owner=owner,
     )
 
@@ -40,7 +40,7 @@ def test_process_video_fail_response(tmp_path, test_user):
         process_video(video.id)
 
     video.refresh_from_db()
-    assert video.status == "failed"
+    assert video.status == "Failed"
 
 
 def test_process_video_exception(tmp_path, test_user):
@@ -51,4 +51,4 @@ def test_process_video_exception(tmp_path, test_user):
         process_video(video.id)
 
     video.refresh_from_db()
-    assert video.status == "failed"
+    assert video.status == "Failed"
