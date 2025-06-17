@@ -57,7 +57,7 @@ def process_video(video_id):
 
         return {
             "video_id": result,
-            "notes": "To download video try /videos/download/{video_id}",
+            "note": "To download video try /videos/download/{video_id}",
         }
     except Exception as e:
         video.status = "failed"

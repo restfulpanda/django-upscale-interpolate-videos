@@ -62,7 +62,7 @@ jobs:
           pytest
 
       - name: Lint and type-check
-        working-directory: builds/django
+        working-directory: builds
         continue-on-error: true
         run: |
           black --check .

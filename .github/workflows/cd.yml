@@ -62,6 +62,6 @@ jobs:
 
             echo "Restarting containers..."
             cd ~/deploy/app
-            docker-compose down
+            docker-compose -f docker-compose.prod.yml down -v
             docker-compose -f docker-compose.prod.yml up -d
           EOF
