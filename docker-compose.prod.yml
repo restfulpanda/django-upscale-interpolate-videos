@@ -3,8 +3,6 @@ version: "3.9"
 volumes:
   media:
     driver: local
-  logs:
-    driver: local
   pgdata:
     driver: local
 
@@ -15,9 +13,9 @@ networks:
 services:
   django:
     image: cr.yandex/${YC_REGISTRY}/django-service:latest
+    env_file:
+      - ./.env
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-    environment:
-      SECRET_KEY: ${SECRET_KEY}
     ports:
       - "8000:8000"
     depends_on:
@@ -29,6 +27,8 @@ services:
 
   postgres-db:
     image: postgres:15
+    env_file:
+      - ./.env
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
@@ -44,10 +44,9 @@ services:
   celery:
     image: cr.yandex/${YC_REGISTRY}/celery-service:latest
     env_file:
-      - ./builds/django/.env
+      - ./.env
     volumes:
       - media:/media
-      - logs:/app/logs
     depends_on:
       - django
       - redis

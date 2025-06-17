@@ -19,7 +19,7 @@ def process_video(video_id):
     try:
         input_path = video.original_video.path
         interpolate_output_path = input_path.replace("processed", "interpolated")
-        # output_path = input_path.replace("original", "processed")
+        output_path = input_path.replace("original", "processed")
 
         payload_interpolation = {
             "input_path": input_path,
@@ -29,22 +29,23 @@ def process_video(video_id):
             "http://practical-rife:5000/interpolate", json=payload_interpolation
         )
 
-        # if response_interpolation.status_code == 200:
-        #     payload_upscale = {
-        #         "input_path": interpolate_output_path,
-        #         "output_path": output_path,
-        #     }
-        #     response_upscale = requests.post("http://upscale:5001/upscale", json=payload_upscale)
+        if response_interpolation.status_code == 200:
+            payload_upscale = {
+                "input_path": interpolate_output_path,
+                "output_path": output_path,
+            }
+            response_upscale = requests.post("http://upscale:5001/upscale", json=payload_upscale)
 
-        #     if response_upscale.status_code == 200:
-        #         video.processed_video = output_path
-        #         video.status = 'done'
-        #     else:
-        #         video.status = 'failed'
-        #         logger.debug(response_upscale.json())
-        # else:
-        #     video.status = 'failed'
-        #     logger.debug(response_interpolation.json())
+            if response_upscale.status_code == 200:
+                video.processed_video = output_path
+                video.status = 'done'
+                result = video_id
+            else:
+                video.status = 'failed'
+                result = f"Processing video ({video_id}) failed"
+        else:
+            video.status = 'failed'
+            result = f"Processing video ({video_id}) failed"
 
         if response_interpolation.status_code == 200:
             video.processed_video = interpolate_output_path
@@ -52,7 +53,6 @@ def process_video(video_id):
             result = video_id
         else:
             video.status = "failed"
-            logger.debug(response_interpolation.json())
             result = f"Processing video ({video_id}) failed"
 
         return {

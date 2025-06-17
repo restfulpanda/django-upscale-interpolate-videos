@@ -57,9 +57,6 @@ jobs:
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
 
-            echo "Injecting .env..."
-            export SECRET_KEY="${{ secrets.SECRET_KEY }}"
-
             echo "Restarting containers..."
             cd ~/deploy/app
             docker-compose -f docker-compose.prod.yml down -v

@@ -65,8 +65,6 @@ def interpolate():
             "/usr/bin/ffmpeg",
             "-m",
             "/app/models/",
-            # "-g",
-            # "1,1,1,1",
             "-s",
             str(scale),
         ]
