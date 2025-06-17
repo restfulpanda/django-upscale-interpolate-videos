@@ -40,12 +40,15 @@ class VideoDownloadAPIView(APIView):
         video_id = kwargs.get("video_id")
         vid = get_object_or_404(Video, id=video_id)
         video_path = vid.processed_video.path
+        
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"PATH {video_path}")
 
         if vid.owner != request.user:
             return Response({"detail": "Access denied."}, status=403)
 
         if os.path.exists(video_path):
-            with open(video_path, "rb") as f:
-                return FileResponse(f, content_type="video/mp4")
+            return FileResponse(open(video_path, 'rb'), content_type='video/mp4')
 
         raise Response({"detail": "File not found."}, status=404)
