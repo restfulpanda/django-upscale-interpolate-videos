@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
 
     steps:
@@ -47,14 +48,19 @@ jobs:
       - name: Docker login & pull images on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            set -ex
-            echo "Docker login..."
+            set -euo pipefail
             echo "${{ secrets.YC_OAUTH }}" | docker login --username oauth --password-stdin cr.yandex
 
-            echo "Pulling images..."
+            ( while true; do
+                  echo "::notice::pulling rife-service ⏳ $(date +%T)"
+                  sleep 45
+              done ) & KEEP_PID=$!
+
+            docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
+            kill $KEEP_PID
+
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest
-            docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
           EOF
 
