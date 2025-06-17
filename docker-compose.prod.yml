@@ -15,7 +15,7 @@ services:
     image: cr.yandex/${YC_REGISTRY}/django-service:latest
     env_file:
       - ./.env
-    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:

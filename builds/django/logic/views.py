@@ -45,6 +45,6 @@ class VideoDownloadAPIView(APIView):
             return Response({"detail": "Access denied."}, status=403)
 
         if os.path.exists(video_path):
-            return FileResponse(open(video_path, 'rb'), content_type='video/mp4')
+            return FileResponse(open(video_path, "rb"), content_type="video/mp4")
 
         raise Response({"detail": "File not found."}, status=404)

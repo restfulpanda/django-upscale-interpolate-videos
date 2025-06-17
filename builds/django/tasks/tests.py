@@ -9,9 +9,13 @@ from tasks.sample_tasks import process_video
 pytestmark = pytest.mark.django_db
 User = get_user_model()
 
+
 @pytest.fixture
 def test_user(db):
-    return User.objects.create_user(email="testuser@test.user", username="testuser", password="testpass")
+    return User.objects.create_user(
+        email="testuser@test.user", username="testuser", password="testpass"
+    )
+
 
 def create_test_video_file(tmp_path):
     original_path = tmp_path / "original" / "video.mp4"
@@ -47,7 +51,9 @@ def test_process_video_exception(tmp_path, test_user):
     original_path = create_test_video_file(tmp_path)
     video = create_video_instance(original_path, test_user)
 
-    with patch("tasks.sample_tasks.requests.post", side_effect=Exception("Network error")):
+    with patch(
+        "tasks.sample_tasks.requests.post", side_effect=Exception("Network error")
+    ):
         process_video(video.id)
 
     video.refresh_from_db()

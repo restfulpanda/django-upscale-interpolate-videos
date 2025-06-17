@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev")
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 CELERYD_HIJACK_ROOT_LOGGER = False
-CELERYD_LOG_LEVEL = 'DEBUG'
+CELERYD_LOG_LEVEL = "DEBUG"
 
 ### SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))

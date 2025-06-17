@@ -27,7 +27,9 @@ class VideoSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and instance.processed_video and instance.processed_video.name:
             try:
-                data["processed_video"] = request.build_absolute_uri(instance.processed_video.url)
+                data["processed_video"] = request.build_absolute_uri(
+                    instance.processed_video.url
+                )
             except ValueError:
                 data["processed_video"] = None
         else:
