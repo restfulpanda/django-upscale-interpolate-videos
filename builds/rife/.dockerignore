@@ -1,4 +1,5 @@
 __pycache__/
+train_log/
 *cache*/
 *.pyc
 *.pyo

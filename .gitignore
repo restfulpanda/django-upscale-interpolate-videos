@@ -1,7 +1,9 @@
 # My Files
 logs/
 migrations/
-*.env*
+train_log/
+.env
+.prod.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

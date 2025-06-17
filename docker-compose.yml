@@ -48,7 +48,7 @@ services:
 
   celery:
     build: ./builds
-    command: celery -A core worker --loglevel=info --logfile=logs/celery.log
+    command: celery -A core worker --loglevel=DEBUG
     volumes:
       - ./builds/django/:/app/
       - media:/media

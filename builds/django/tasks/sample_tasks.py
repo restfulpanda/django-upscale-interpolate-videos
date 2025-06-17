@@ -1,14 +1,12 @@
+import os
 import requests
 import logging
 
 from celery import shared_task
 from logic.models import Video
 
-logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
-)
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.DEBUG)
 
 @shared_task
 def process_video(video_id):
@@ -18,8 +16,11 @@ def process_video(video_id):
 
     try:
         input_path = video.original_video.path
-        interpolate_output_path = input_path.replace("processed", "interpolated")
+        interpolate_output_path = input_path.replace("original", "interpolated")
+        os.makedirs("/media/interpolated", exist_ok=True)
+        
         # output_path = input_path.replace("original", "processed")
+        os.makedirs("/media/processed", exist_ok=True)
 
         # INTERPOLATION
         payload_interpolation = {
