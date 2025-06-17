@@ -15,4 +15,4 @@ RUN pip install --upgrade pip && \
 
 COPY ./django/ .
 
-CMD ["celery", "-A", "core", "worker", "--loglevel=info", "--logfile=logs/celery.log"]
+CMD ["celery", "-A", "core", "worker", "--loglevel=info"]

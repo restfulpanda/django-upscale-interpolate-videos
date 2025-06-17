@@ -2,6 +2,8 @@ import os
 
 from django.db import models
 
+from django.conf import settings
+
 
 def original_video_directory_path(instance, filename):
     return os.path.join("original", filename)
@@ -18,6 +20,9 @@ class Video(models.Model):
         ("done", "Done"),
         ("failed", "Failed"),
     ]
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="videos"
+    )
     original_video = models.FileField(
         upload_to=original_video_directory_path, max_length=255
     )

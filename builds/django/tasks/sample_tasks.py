@@ -18,7 +18,7 @@ def process_video(video_id):
 
     try:
         input_path = video.original_video.path
-        interpolate_output_path = input_path.replace('processed', 'interpolated')
+        interpolate_output_path = input_path.replace("processed", "interpolated")
         # output_path = input_path.replace("original", "processed")
 
         payload_interpolation = {
@@ -45,13 +45,20 @@ def process_video(video_id):
         # else:
         #     video.status = 'failed'
         #     logger.debug(response_interpolation.json())
-        
+
         if response_interpolation.status_code == 200:
             video.processed_video = interpolate_output_path
-            video.status = 'done'
+            video.status = "done"
+            result = video_id
         else:
-            video.status = 'failed'
+            video.status = "failed"
             logger.debug(response_interpolation.json())
+            result = f"Processing video ({video_id}) failed"
+
+        return {
+            "video_id": result,
+            "notes": "To download video try /videos/download/{video_id}",
+        }
     except Exception as e:
         video.status = "failed"
         print(f"Error during processing: {e}")

@@ -10,8 +10,6 @@ class VideoStatusView(APIView):
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get("task_id")
         result = AsyncResult(task_id)
-        return Response({
-            "task_id": task_id,
-            "status": result.status,
-            "result": result.result,
-        })
+        return Response(
+            {"task_id": task_id, "status": result.status, "result": result.result}
+        )
