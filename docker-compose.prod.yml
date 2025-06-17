@@ -14,7 +14,7 @@ networks:
 
 services:
   django:
-    image: cr.yandex/crpp4n73j7p3lv151eeo/django-service:latest
+    image: cr.yandex/${YC_REGISTRY}/django-service:latest
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     environment:
       SECRET_KEY: ${SECRET_KEY}
@@ -42,7 +42,7 @@ services:
       - app_network
 
   celery:
-    image: cr.yandex/crpp4n73j7p3lv151eeo/django-service:latest
+    image: cr.yandex/${YC_REGISTRY}/django-service:latest
     command: celery -A core worker --loglevel=info --logfile=/app/logs/celery.log
     env_file:
       - ./builds/django/.env
@@ -65,7 +65,7 @@ services:
       - app_network
 
   practical-rife:
-    image: cr.yandex/crpp4n73j7p3lv151eeo/practical-rife:latest
+    image: cr.yandex/${YC_REGISTRY}/practical-rife:latest
     command: python3 /app/server_interpolation.py
     volumes:
       - media:/media
@@ -77,7 +77,7 @@ services:
       - app_network
 
   upscale:
-    image: cr.yandex/crpp4n73j7p3lv151eeo/upscale:latest
+    image: cr.yandex/${YC_REGISTRY}/upscale:latest
     command: python3 /app/server_upscale.py
     volumes:
       - media:/media

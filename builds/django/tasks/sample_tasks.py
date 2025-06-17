@@ -19,7 +19,7 @@ def process_video(video_id):
     try:
         input_path = video.original_video.path
         interpolate_output_path = input_path.replace('processed', 'interpolated')
-        output_path = input_path.replace("original", "processed")
+        # output_path = input_path.replace("original", "processed")
 
         payload_interpolation = {
             "input_path": input_path,
