@@ -21,6 +21,7 @@ def process_video(video_id):
         interpolate_output_path = input_path.replace("processed", "interpolated")
         output_path = input_path.replace("original", "processed")
 
+        # INTERPOLATION
         payload_interpolation = {
             "input_path": input_path,
             "output_path": interpolate_output_path,
@@ -28,39 +29,39 @@ def process_video(video_id):
         response_interpolation = requests.post(
             "http://practical-rife:5000/interpolate", json=payload_interpolation
         )
+        
+        if response_interpolation.status_code != 200:
+            logger.error(f"Interpolation failed: {response_interpolation.text}")
+            raise Exception("Interpolation step failed")
+        
+        # UPSCALING
 
-        if response_interpolation.status_code == 200:
-            payload_upscale = {
-                "input_path": interpolate_output_path,
-                "output_path": output_path,
-            }
-            response_upscale = requests.post("http://upscale:5001/upscale", json=payload_upscale)
+        payload_upscale = {
+            "input_path": interpolate_output_path,
+            "output_path": output_path,
+        }
+        response_upscale = requests.post(
+            "http://upscale:5001/upscale", json=payload_upscale
+        )
 
-            if response_upscale.status_code == 200:
-                video.processed_video = output_path
-                video.status = 'done'
-                result = video_id
-            else:
-                video.status = 'failed'
-                result = f"Processing video ({video_id}) failed"
-        else:
-            video.status = 'failed'
-            result = f"Processing video ({video_id}) failed"
+        if response_upscale.status_code != 200:
+            logger.error(f"Upscale failed: {response_upscale.text}")
+            raise Exception("Upscale step failed")
 
-        if response_interpolation.status_code == 200:
-            video.processed_video = interpolate_output_path
-            video.status = "done"
-            result = video_id
-        else:
-            video.status = "failed"
-            result = f"Processing video ({video_id}) failed"
-
-        return {
-            "video_id": result,
+        result = {
+            "video_id": video_id,
+            "video_status": video.status,
             "note": "To download video try /videos/download/{video_id}",
         }
     except Exception as e:
         video.status = "failed"
-        print(f"Error during processing: {e}")
+        result = {
+            "video_id": video_id,
+            "video_status": video.status,
+            "error": str(e),
+        }
+        logger.error(f"Error processing video {video_id}: {e}")
     finally:
         video.save()
+        
+    return result

@@ -89,6 +89,5 @@ services:
      - media:/media
    ports:
      - 5001:5001
-   runtime: nvidia
    networks:
       - app_network
