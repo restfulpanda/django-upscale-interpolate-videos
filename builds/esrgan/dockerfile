@@ -16,7 +16,7 @@ RUN apt-get update --fix-missing && \
         python3.11-distutils \
         python3.11-venv \
         ffmpeg \
-        unzip && \
+        git && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -28,12 +28,13 @@ WORKDIR /app
 
 COPY requirements.txt .
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install --no-cache-dir torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 \
+    python3 -m pip install --no-cache-dir torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 \
     --index-url https://download.pytorch.org/whl/cu124 && \
+    python3 -m pip install git+https://github.com/xinntao/BasicSR.git@v1.4.2 && \
     python3 -m pip install --no-cache-dir --force-reinstall -r requirements.txt
-
-COPY . .
-RUN unzip train_log.zip && rm train_log.zip
+    
+COPY ./src/ ./src/
+COPY server_upscale.py .
 
 FROM nvidia/cuda:12.4.0-base-ubuntu20.04
 
@@ -59,8 +60,8 @@ WORKDIR /app
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
-    FLASK_APP=server_interpolation.py \
+    FLASK_APP=server_upscale.py \
     FLASK_ENV=production
 
-EXPOSE 5000
-CMD ["python3", "server_interpolation.py"]
+EXPOSE 5001
+CMD ["python3", "server_upscale.py"]

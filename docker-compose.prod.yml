@@ -73,8 +73,8 @@ services:
     networks:
       - app_network
 
-  upscale:
-    image: cr.yandex/${YC_REGISTRY}/upscale-service:latest
+  esrgan:
+    image: cr.yandex/${YC_REGISTRY}/esrgan-service:latest
     command: python3 /app/server_upscale.py
     volumes:
       - media:/media
