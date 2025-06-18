@@ -1,5 +1,0 @@
-ncnn_vulkan
-wakepy>=0.7.2
-pillow
-flask
-pytest
