@@ -1,9 +1,8 @@
-import os
 from unittest.mock import patch, MagicMock
 
 import pytest
 
-from ..server_upscale import app
+from .server_upscale import app
 
 
 @pytest.fixture
@@ -52,12 +51,12 @@ def test_upscale_success(client):
 
         response = client.post(
             "/upscale",
-            json={"input_path": "input.mp4", "output_path": "output.mp4", "multi": 2},
+            json={"input_path": "/test/input.mp4", "output_path": "/test/output.mp4", "multi": 2},
         )
 
         assert response.status_code == 200
         assert response.json["status"] == "success"
-        assert response.json["output"] == "output.mp4"
+        assert response.json["output"] == "/test/output_out.mp4"
 
 
 def test_upscale_subprocess_failure(client):

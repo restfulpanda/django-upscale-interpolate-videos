@@ -48,6 +48,14 @@ def interpolate():
         output_path = request.json.get("output_path")
         scale = request.json.get("multi", 2)
 
+        sep = '/' if '/' in output_path else '\\'
+        path_parts = output_path.split(sep)
+        folder_path = sep.join(path_parts[:-1]) + sep
+        file_name = path_parts[-1]
+        new_file_name = file_name[:-4] + '_out' + file_name[-4:]
+
+        file_path = folder_path + new_file_name
+        
         if not input_path or not output_path:
             return jsonify({"error": "input_path and output_path are required"}), 400
 
@@ -60,11 +68,12 @@ def interpolate():
             "-i",
             input_path,
             "-o",
-            output_path,
-            "--ffmpeg_bin",
-            "/usr/bin/ffmpeg",
+            folder_path,
+            # "--ffmpeg_bin",
+            # "/usr/bin/ffmpeg",
             "-n",
             "realesr-general-x4v3",
+            # "--face_enhance",
             "-s",
             str(scale),
         ]
@@ -75,7 +84,7 @@ def interpolate():
             return jsonify({"error": result.stderr}), 500
 
         logger.info("Upscaling completed successfully.")
-        return jsonify({"status": "success", "output": output_path})
+        return jsonify({"status": "success", "output": file_path})
     except Exception as e:
         logger.error(f"Captured error: {e}")
         return jsonify({"error": str(e)}), 500
