@@ -49,8 +49,8 @@ jobs:
                   sleep 45
               done ) & KEEP_PID=$!
 
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
-          docker push cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/esrgan-service:latest ./builds/esrgan
+          docker push cr.yandex/${{ secrets.YC_REGISTRY }}/esrgan-service:latest
 
           kill $KEEP_PID
 
@@ -73,7 +73,7 @@ jobs:
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest
             docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest
-            docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
+            docker pull cr.yandex/${{ secrets.YC_REGISTRY }}/esrgan-service:latest
             kill $KEEP_PID
           EOF
 

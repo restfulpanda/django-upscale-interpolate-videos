@@ -31,12 +31,10 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
     }
     try:
         response = requests.post(
-            "http://practical-rife:5000/interpolate",
-            json=payload,
-            timeout=60
+            "http://practical-rife:5000/interpolate", json=payload, timeout=60
         )
         response.raise_for_status()
-        
+
     except requests.exceptions.RequestException as e:
         error_msg = f"Interpolation request failed: {str(e)}"
         logger.error(error_msg)
@@ -47,7 +45,7 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
         data = response.json()
         file_path = data["output"]
         return file_path
-        
+
     except (KeyError, ValueError) as e:
         error_msg = f"Invalid server response: {str(e)}"
         logger.error(error_msg)
@@ -76,13 +74,9 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
         "output_path": output_path,
     }
     try:
-        response = requests.post(
-            "http://esrgan:5001/upscale",
-            json=payload,
-            timeout=60
-        )
+        response = requests.post("http://esrgan:5001/upscale", json=payload, timeout=60)
         response.raise_for_status()
-        
+
     except requests.exceptions.RequestException as e:
         error_msg = f"Interpolation request failed: {str(e)}"
         logger.error(error_msg)
@@ -93,7 +87,7 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
         data = response.json()
         file_path = data["output"]
         return file_path
-        
+
     except (KeyError, ValueError) as e:
         error_msg = f"Invalid server response: {str(e)}"
         logger.error(error_msg)
