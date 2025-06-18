@@ -12,12 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY req.txt .
+COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r req.txt
+    pip install --no-cache-dir -r requirements.txt
 
 COPY ./src/ ./src/
-COPY ./models/ ./models/
 COPY server_upscale.py .
 
 ENV NVIDIA_VISIBLE_DEVICES=all
