@@ -2,7 +2,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from .server_upscale import app
+from .server_esrgan import app
 
 
 @pytest.fixture
@@ -51,7 +51,11 @@ def test_upscale_success(client):
 
         response = client.post(
             "/upscale",
-            json={"input_path": "/test/input.mp4", "output_path": "/test/output.mp4", "multi": 2},
+            json={
+                "input_path": "/test/input.mp4",
+                "output_path": "/test/output.mp4",
+                "multi": 2,
+            },
         )
 
         assert response.status_code == 200

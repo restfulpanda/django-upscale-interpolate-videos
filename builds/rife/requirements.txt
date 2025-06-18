@@ -4,9 +4,9 @@ sk-video>=1.1.10
 flask
 pytest
 
-torch==2.4.1
-torchvision==0.19.1
-torchaudio==2.4.1
+# torch==2.4.1
+# torchvision==0.19.1
+# torchaudio==2.4.1
 
 opencv-python>=4.1.2
 moviepy==1.0.3

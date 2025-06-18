@@ -82,8 +82,8 @@ services:
    networks:
       - app_network
   
-  upscale:
-   build: ./builds/upscale
+  esrgan:
+   build: ./builds/esrgan
    command: python3 /app/server_upscale.py
    volumes:
      - media:/media

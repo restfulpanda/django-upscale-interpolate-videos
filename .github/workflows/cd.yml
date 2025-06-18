@@ -32,13 +32,27 @@ jobs:
 
       - name: Build and push RIFE image
         run: |
+          ( while true; do
+                  echo "::notice::build & push rife image ⏳ $(date +%T)"
+                  sleep 45
+              done ) & KEEP_PID=$!
+
           docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest ./builds/rife
           docker push cr.yandex/${{ secrets.YC_REGISTRY }}/rife-service:latest
 
-      - name: Build and push Upscale image
+          kill $KEEP_PID
+
+      - name: Build and push Real-ESRGAN image
         run: |
+          ( while true; do
+                  echo "::notice::build & push real-esrgan image ⏳ $(date +%T)"
+                  sleep 45
+              done ) & KEEP_PID=$!
+
           docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest ./builds/upscale
           docker push cr.yandex/${{ secrets.YC_REGISTRY }}/upscale-service:latest
+
+          kill $KEEP_PID
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
@@ -52,7 +66,7 @@ jobs:
             echo "${{ secrets.YC_OAUTH }}" | docker login --username oauth --password-stdin cr.yandex
 
             ( while true; do
-                  echo "::notice::pulling rife-service ⏳ $(date +%T)"
+                  echo "::notice::pulling images ⏳ $(date +%T)"
                   sleep 45
               done ) & KEEP_PID=$!
 

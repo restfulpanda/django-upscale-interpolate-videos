@@ -6,6 +6,6 @@ import realesrgan.archs
 import realesrgan.data
 import realesrgan.models
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     root_path = osp.abspath(osp.join(__file__, osp.pardir, osp.pardir))
     train_pipeline(root_path)

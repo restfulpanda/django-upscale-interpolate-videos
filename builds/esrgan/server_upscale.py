@@ -48,14 +48,14 @@ def interpolate():
         output_path = request.json.get("output_path")
         scale = request.json.get("multi", 2)
 
-        sep = '/' if '/' in output_path else '\\'
+        sep = "/" if "/" in output_path else "\\"
         path_parts = output_path.split(sep)
         folder_path = sep.join(path_parts[:-1]) + sep
         file_name = path_parts[-1]
-        new_file_name = file_name[:-4] + '_out' + file_name[-4:]
+        new_file_name = file_name[:-4] + "_out" + file_name[-4:]
 
         file_path = folder_path + new_file_name
-        
+
         if not input_path or not output_path:
             return jsonify({"error": "input_path and output_path are required"}), 400
 
@@ -77,7 +77,7 @@ def interpolate():
             "-s",
             str(scale),
         ]
-        
+
         result = subprocess.run(command, capture_output=True, text=True)
         if result.returncode != 0:
             logger.info(result)
