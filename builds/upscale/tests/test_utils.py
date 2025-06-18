@@ -1,7 +1,7 @@
 import numpy as np
 from basicsr.archs.rrdbnet_arch import RRDBNet
 
-from realesrgan.utils import RealESRGANer
+from ..src.realesrgan.utils import RealESRGANer
 
 
 def test_realesrganer():

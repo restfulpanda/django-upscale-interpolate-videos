@@ -56,19 +56,19 @@ def interpolate():
 
         command = [
             "python3",
-            "/app/src/upscale_video.py",
+            "/app/src/inference_realesrgan_video.py",
             "-i",
             input_path,
             "-o",
             output_path,
-            "-f",
+            "--ffmpeg_bin",
             "/usr/bin/ffmpeg",
-            "-m",
-            "/app/models/",
+            "-n",
+            "realesr-general-x4v3",
             "-s",
             str(scale),
         ]
-
+        
         result = subprocess.run(command, capture_output=True, text=True)
         if result.returncode != 0:
             logger.info(result)

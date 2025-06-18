@@ -1,6 +1,6 @@
 import torch
 
-from realesrgan.archs.discriminator_arch import UNetDiscriminatorSN
+from ..src.realesrgan.archs.discriminator_arch import UNetDiscriminatorSN
 
 
 def test_unetdiscriminatorsn():

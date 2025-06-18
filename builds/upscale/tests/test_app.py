@@ -3,7 +3,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from .server_upscale import app
+from ..server_upscale import app
 
 
 @pytest.fixture

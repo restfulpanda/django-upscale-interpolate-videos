@@ -23,7 +23,7 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
-      VIDEO_STORAGE_DIR: /media
+      VIDEO_STORAGE_DIR: ${VIDEO_STORAGE_DIR}
     depends_on:
       - redis
       - postgres-db

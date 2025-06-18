@@ -1,8 +1,8 @@
 import pytest
 import yaml
 
-from realesrgan.data.realesrgan_dataset import RealESRGANDataset
-from realesrgan.data.realesrgan_paired_dataset import RealESRGANPairedDataset
+from ..src.realesrgan.data.realesrgan_dataset import RealESRGANDataset
+from ..src.realesrgan.data.realesrgan_paired_dataset import RealESRGANPairedDataset
 
 
 def test_realesrgan_dataset():
