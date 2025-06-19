@@ -1,7 +1,8 @@
+flask
+
 facexlib>=0.2.5
 gfpgan>=1.3.5
-basicsr
-numpy<2
+basicsr --prefer-binary
 opencv-python
 Pillow
 tqdm
