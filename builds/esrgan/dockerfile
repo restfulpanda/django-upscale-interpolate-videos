@@ -34,7 +34,7 @@ RUN python3 -m pip install --upgrade pip && \
         torchaudio==2.1.1 \
         --index-url https://download.pytorch.org/whl/cu118
 
-RUN pip install --pre --extra-index-url https://pypi.ngc.nvidia.com basicsr
+RUN pip install --pre --extra-index-url https://pypi.ngc.nvidia.com basicsr --exists-action i
 
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
     
