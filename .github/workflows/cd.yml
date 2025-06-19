@@ -8,6 +8,8 @@ jobs:
   deploy:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    container:
+      options: --storage-opt size=50GB
 
     steps:
       - name: Checkout code
