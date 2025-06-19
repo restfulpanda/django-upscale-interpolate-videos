@@ -29,10 +29,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install --no-cache-dir \
-    torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 \
-    --index-url https://download.pytorch.org/whl/cu118 && \
-    python3 -m pip install --no-cache-dir --force-reinstall numpy<2 && \
-    python3 -m pip install --no-cache-dir -r requirements.txt
+        torch==2.1.1 \
+        torchvision==0.16.1 \
+        torchaudio==2.1.1 \
+        --index-url https://download.pytorch.org/whl/cu118
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
     
 COPY ./src/ ./src/
 COPY server_upscale.py .
