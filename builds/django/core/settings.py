@@ -35,7 +35,7 @@ CELERYD_HIJACK_ROOT_LOGGER = False
 CELERYD_LOG_LEVEL = "DEBUG"
 
 ### SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 
 ALLOWED_HOSTS = ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -93,7 +93,12 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    # Temporarily remove default permission classes for development
+    # "DEFAULT_PERMISSION_CLASSES": [
+    #     "rest_framework.permissions.IsAuthenticated",
+    # ],
 }
 
 WSGI_APPLICATION = "core.wsgi.application"
@@ -105,9 +110,9 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "UIDataBase",
-        "USER": "postgres",
-        "PASSWORD": "111",
+        "NAME": os.environ.get("POSTGRES_DB", "UIDataBase"),
+        "USER": os.environ.get("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "111"),
         "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
         "PORT": "5432",
     }
@@ -164,4 +169,19 @@ SIMPLE_JWT = {
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
     "BLACKLIST_TOKEN_CHECKS": ["access", "refresh"],
+}
+
+LOGIN_URL = "/users/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
 }

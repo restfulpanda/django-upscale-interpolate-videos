@@ -167,6 +167,16 @@ cd <repo-name>
 
 ```bash
 cp .env.example .env
+
+# Configure the following variables in .env file:
+# - SECRET_KEY: Django secret key (generate with: python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")
+# - POSTGRES_DB: Database name (default: UIDataBase)
+# - POSTGRES_HOST: Database host (default: postgres-db)
+# - POSTGRES_USER: Database user (default: postgres)
+# - POSTGRES_PASSWORD: Database password
+# - POSTGRES_ROOT_PASSWORD: Database root password
+# - DJANGO_ALLOWED_HOSTS: Comma-separated list of allowed hosts
+# - VIDEO_STORAGE_DIR: Video storage directory (default: /media)
 ```
 
 #### 🐳 3. Start the Containers
@@ -179,12 +189,14 @@ docker-compose up --build
 
 ### ❗ Common Issues
 
-| Problem                                | Solution                                                  |
-| -------------------------------------- | --------------------------------------------------------- |
-| `Video not found`                      | Make sure `/media` is correctly mounted in all containers |
-| `Connection refused` to Flask services | Check Docker network / container names                    |
-| Celery not working                     | Ensure Redis and `celery-service` are running             |
-| 403/401 errors                         | Use a valid JWT token in headers                          |
+| Problem                                | Solution                                                                                        |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `Video not found`                      | Check that `/media` volume is properly mounted in all containers and verify file permissions    |
+| `Connection refused` to Flask services | Verify Docker network connectivity and ensure service names match `practical-rife` and `esrgan` |
+| Celery tasks not processing            | Confirm Redis is running and `celery-service` container is healthy; check Celery logs           |
+| 403/401 authentication errors          | Ensure valid JWT token is included in Authorization header: `Bearer <your-token>`               |
+| Database connection issues             | Verify PostgreSQL container is running and environment variables are correctly set              |
+| Docker build failures                  | Check available disk space and ensure all required files are present in build context           |
 
 ---
 
