@@ -1,8 +1,9 @@
-name: DUIV-web
+name: duiv-web
 
 volumes:
-  postgres-data:
   media:
+    driver: local
+  pgdata:
     driver: local
 
 networks:
@@ -12,57 +13,44 @@ networks:
 services:
   django:
     image: cr.yandex/${YC_REGISTRY}/django-service:latest
-    volumes:
-      - ./builds/django/:/app/
-      - media:/media
     ports:
       - 8000:8000
-    environment:
-      POSTGRES_HOST: postgres-db
-      DEBUG: 1
-      SECRET_KEY: ${SECRET_KEY}
-      PYTHONDONTWRITEBYTECODE: 1
-      PYTHONUNBUFFERED: 1
-      VIDEO_STORAGE_DIR: ${VIDEO_STORAGE_DIR}
-    depends_on:
-      - redis
-      - postgres-db
+    volumes:
+      - media:/media
+    env_file:
+      - ./.env
     networks:
       - app_network
+    depends_on:
+      - postgres-db
+      - redis
 
   postgres-db:
     image: postgres
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_ROOT_PASSWORD: ${POSTGRES_PASSWORD}
-    restart: always
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - ./.env
     networks:
       - app_network
+    restart: always
     
 
   celery:
     image: cr.yandex/${YC_REGISTRY}/celery-service:latest
-    command: celery -A core worker --loglevel=DEBUG
     volumes:
-      - ./builds/django/:/app/
       - media:/media
       - ./logs/celery:/app/logs
-    environment:
-      POSTGRES_HOST: postgres-db
-      DEBUG: 1
-      SECRET_KEY: ${SECRET_KEY}
+    env_file:
+      - ./.env
+    networks:
+      - app_network
     depends_on:
       - django
       - redis
       - postgres-db
-    networks:
-      - app_network
 
   redis:
     image: redis:5-alpine
@@ -71,9 +59,12 @@ services:
 
   practical-rife:
     image: cr.yandex/${YC_REGISTRY}/rife-service:latest
-    command: python3 /app/server_interpolation.py
+    ports:
+      - 5000:5000
     volumes:
       - media:/media
+    environment:
+        - NVIDIA_VISIBLE_DEVICES=all
     deploy:
         resources:
           reservations:
@@ -81,20 +72,25 @@ services:
               - driver: nvidia
                 count: 1
                 capabilities: [gpu]
-    ports:
-      - 5000:5000
-    runtime: nvidia
-    environment:
-        - NVIDIA_VISIBLE_DEVICES=all
     networks:
         - app_network
+    runtime: nvidia
   
   esrgan:
     image: cr.yandex/${YC_REGISTRY}/esrgan-service:latest
-    command: python3 /app/server_upscale.py
-    volumes:
-      - media:/media
     ports:
       - 5001:5001
+    volumes:
+      - media:/media
+    environment:
+        - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                count: 1
+                capabilities: [gpu]
     networks:
         - app_network
+    runtime: nvidia

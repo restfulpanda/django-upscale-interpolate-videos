@@ -1,4 +1,4 @@
-version: "3.9"
+name: duiv-web
 
 volumes:
   media:
@@ -13,33 +13,28 @@ networks:
 services:
   django:
     image: cr.yandex/${YC_REGISTRY}/django-service:latest
+    ports:
+      - 8000:8000
     env_file:
       - ./.env
-    command: python3 manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8000:8000"
+    networks:
+      - app_network
     depends_on:
       - postgres-db
       - redis
     restart: always
-    networks:
-      - app_network
 
   postgres-db:
     image: postgres:15
+    ports:
+      - 5432:5432
     env_file:
       - ./.env
     volumes:
       - pgdata:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    restart: always
     networks:
       - app_network
+    restart: always
 
   celery:
     image: cr.yandex/${YC_REGISTRY}/celery-service:latest
@@ -47,24 +42,25 @@ services:
       - ./.env
     volumes:
       - media:/media
+    networks:
+      - app_network
     depends_on:
       - django
       - redis
     restart: always
-    networks:
-      - app_network
 
   redis:
     image: redis:5-alpine
     ports:
-      - "6379:6379"
-    restart: always
+      - 6379:6379
     networks:
       - app_network
+    restart: always
 
   practical-rife:
     image: cr.yandex/${YC_REGISTRY}/rife-service:latest
-    command: python3 /app/server_interpolation.py
+    ports:
+      - 5000:5000
     volumes:
       - media:/media
     # deploy:
@@ -74,15 +70,14 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
-    ports:
-      - "5000:5000"
-    restart: always
     networks:
       - app_network
+    restart: always
 
   esrgan:
     image: cr.yandex/${YC_REGISTRY}/esrgan-service:latest
-    command: python3 /app/server_upscale.py
+    ports:
+      - 5001:5001
     volumes:
       - media:/media
     # 
@@ -93,8 +88,6 @@ services:
     #         - driver: nvidia
     #           count: 1
     #           capabilities: [gpu]
-    ports:
-      - "5001:5001"
-    restart: always
     networks:
       - app_network
+    restart: always
