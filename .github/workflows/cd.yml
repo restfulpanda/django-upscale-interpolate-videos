@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build:
     timeout-minutes: 30
     runs-on: ubuntu-latest
 
@@ -54,6 +54,10 @@ jobs:
 
           kill $KEEP_PID
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:

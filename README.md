@@ -1,10 +1,21 @@
-# 🧠 Video Frame Interpolation & Upscale API
+# <div align="center">Video Frame Interpolation & Upscale API</div>
+
+<div align="center">
+
+![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![CI Status](https://github.com/msrbl/django-upscale-interpolate-videos/actions/workflows/ci.yml/badge.svg)
+![CD Status](https://github.com/msrbl/django-upscale-interpolate-videos/actions/workflows/cd.yml/badge.svg)
+[![Django Image](https://img.shields.io/docker/image-size/do1lbyy/django-service)](https://hub.docker.com/r/do1lbyy/django-service)
+[![RIFE Image](https://img.shields.io/docker/image-size/do1lbyy/rife-service)](https://hub.docker.com/r/do1lbyy/rife-service)
+[![ESRGAN Image](https://img.shields.io/docker/image-size/do1lbyy/esrgan-service)](https://hub.docker.com/r/do1lbyy/esrgan-service)
+
+</div>
 
 The **django-upscale-interpolate-videos** project is a web application for video resolution enhancement and frame interpolation using machine learning models. The app is built with Django and packaged using Docker for simplified deployment and scalability.
 
 ---
 
-## 📂 Project Structure
+### 📂 Project Structure
 
 ```
 ├── builds/
@@ -19,7 +30,7 @@ The **django-upscale-interpolate-videos** project is a web application for video
 │   │   └── manage.py
 │   ├── rife/                    # Flask service with interpolation model
 │   │   └── dockerfile
-│   ├── upscale/                 # Flask service with upscaling model
+│   ├── esrgan/                  # Flask service with upscaling model
 │   │   └── dockerfile
 ├── docker-compose.yml
 ├── docker-compose.prod.yml
@@ -30,40 +41,38 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 ---
 
-## ⚙️ Technologies Used
+### ⚙️ Technologies Used
 
-| Component           | Purpose                                  |
-| ------------------- | ---------------------------------------- |
-| **Python 3.11**     | Programming language                     |
-| **Django + DRF**    | Backend API                              |
-| **Celery + Redis**  | Asynchronous task queue                  |
-| **PostgreSQL**      | Database for users and video data        |
-| **RIFE (Flask)**    | Video frame interpolation (FPS increase) |
-| **Upscale (Flask)** | Video upscaling (quality enhancement)    |
-| **Docker**          | Containerization of all services         |
-| **GitHub Actions**  | CI/CD pipelines                          |
+| Component               | Purpose                                  |
+| ----------------------- | ---------------------------------------- |
+| **Python 3.11**         | Programming language                     |
+| **Django + DRF**        | Backend API                              |
+| **Celery + Redis**      | Asynchronous task queue                  |
+| **PostgreSQL**          | Database for users and video data        |
+| **RIFE (Flask)**        | Video frame interpolation (FPS increase) |
+| **Real-ESRGAN (Flask)** | Video upscaling (quality enhancement)    |
+| **Docker**              | Containerization of all services         |
+| **GitHub Actions**      | CI/CD pipelines                          |
 
 ---
 
-## 🧩 Implemented Django Services
+### 🧩 Implemented Django Services
 
-### 🔐 Authentication (`authentication` app)
+#### 🔐 Authentication (`authentication` app)
 
 * User registration and authentication
 * JWT-based login
 
-### 🎬 Video Processing (`logic` app)
+#### 🎬 Video Processing (`logic` app)
 
 * Video upload
 * Downloading processed videos
 
-### ⏳ Task Status Tracking (`tasks` app)
+#### ⏳ Task Status Tracking (`tasks` app)
 
 * Monitoring Celery task status via `task_id`
 
----
-
-## 🔌 API Endpoints
+### 🔌 API Endpoints
 
 | Method | URL                           | Description                        |
 | ------ | ----------------------------- | ---------------------------------- |
@@ -75,9 +84,7 @@ The **django-upscale-interpolate-videos** project is a web application for video
 | GET    | `/videos/status/<task_id>`    | Check video processing task status |
 | GET    | `/swagger/`                   | Swagger UI for API documentation   |
 
----
-
-## 🔐 Authentication
+### 🔐 Authentication
 
 All secure endpoints require **JWT token** authentication.
 
@@ -104,9 +111,7 @@ All secure endpoints require **JWT token** authentication.
    POST /users/token/refresh/
    ```
 
----
-
-## 🔁 Example API Usage (via curl)
+### 🔁 Example API Usage (via curl)
 
 ```bash
 # Upload a video
@@ -122,9 +127,7 @@ curl http://localhost:8000/videos/status/<task_id> \
 curl -O http://localhost:8000/videos/download/<video_id>
 ```
 
----
-
-## 📚 Swagger API Documentation
+### 📚 Swagger API Documentation
 
 Explore and test the API in browser:
 
@@ -134,35 +137,22 @@ Powered by `drf-yasg`.
 
 ---
 
-## 🧠 Machine Learning Models
+### 🧠 Machine Learning Models
 
 * 🌀 [RIFE - Real-Time Intermediate Flow Estimation](https://github.com/hzwer/Practical-RIFE)
-* 📈 [Upscales Video 2x or 4x using AI](https://github.com/davlee1972/upscale_video)
+* 📈 [Real-ESRGAN - Real Enhanced Super-Resolution Generative Adversarial Network](https://github.com/xinntao/Real-ESRGAN)
 
 ---
 
-## 🐳 Docker Containers
+### 🚀 CI/CD (GitHub Actions)
 
-| Container         | Purpose                                    |
-| ----------------- | ------------------------------------------ |
-| `django-service`  | Main Django backend                        |
-| `celery-service`  | Celery worker for video processing tasks   |
-| `rife-service`    | Flask service for RIFE interpolation model |
-| `upscale-service` | Flask service for video upscaling          |
-| `redis`           | Message broker for Celery                  |
-| `postgres`        | PostgreSQL database                        |
-
----
-
-## 🚀 CI/CD (GitHub Actions)
-
-### ✅ CI: `build-and-test`
+#### ✅ CI: `build-and-test`
 
 * Installs dependencies
 * Runs unit tests using `pytest`
 * Performs code style and static checks with `black`, `pylint`
 
-### 🚀 CD: `deploy`
+#### 🚀 CD: `deploy`
 
 * Builds and pushes Docker images to Yandex Container Registry
 * Connects to the production server via SSH
@@ -172,22 +162,22 @@ Powered by `drf-yasg`.
 
 ---
 
-## 🧪 Running the Project Locally
+### 🧪 Running the Project Locally
 
-### 🔁 1. Clone the Repository
+#### 🔁 1. Clone the Repository
 
 ```bash
 git clone https://github.com/msrbl/django-upscale-interpolate-videos.git
 cd <repo-name>
 ```
 
-### 🔧 2. Set up Environment Variables
+#### 🔧 2. Set up Environment Variables
 
 ```bash
 cp .env.example .env
 ```
 
-### 🐳 3. Start the Containers
+#### 🐳 3. Start the Containers
 
 ```bash
 docker-compose up --build
@@ -195,22 +185,7 @@ docker-compose up --build
 
 ---
 
-## 🧬 Useful Commands
-
-```bash
-# Apply migrations
-docker-compose exec django python manage.py migrate
-
-# Open Django shell
-docker-compose exec django python manage.py shell
-
-# Run tests
-docker-compose exec django pytest
-```
-
----
-
-## ❗ Common Issues
+### ❗ Common Issues
 
 | Problem                                | Solution                                                  |
 | -------------------------------------- | --------------------------------------------------------- |
@@ -221,6 +196,6 @@ docker-compose exec django pytest
 
 ---
 
-## 🧾 License
+### 🧾 License
 
 MIT License — use freely with attribution.

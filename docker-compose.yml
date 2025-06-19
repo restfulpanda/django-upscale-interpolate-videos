@@ -70,24 +70,31 @@ services:
       - app_network
 
   practical-rife:
-   build: ./builds/rife
-   command: python3 /app/server_interpolation.py
-   volumes:
-     - media:/media
-   ports:
-     - 5000:5000
-   runtime: nvidia
-   environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-   networks:
-      - app_network
+    build: ./builds/rife
+    command: python3 /app/server_interpolation.py
+    volumes:
+      - media:/media
+    deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                count: 1
+                capabilities: [gpu]
+    ports:
+      - 5000:5000
+    runtime: nvidia
+    environment:
+        - NVIDIA_VISIBLE_DEVICES=all
+    networks:
+        - app_network
   
   esrgan:
-   build: ./builds/esrgan
-   command: python3 /app/server_upscale.py
-   volumes:
-     - media:/media
-   ports:
-     - 5001:5001
-   networks:
-      - app_network
+    build: ./builds/esrgan
+    command: python3 /app/server_upscale.py
+    volumes:
+      - media:/media
+    ports:
+      - 5001:5001
+    networks:
+        - app_network
