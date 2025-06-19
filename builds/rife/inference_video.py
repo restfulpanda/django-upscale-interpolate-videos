@@ -368,14 +368,14 @@ if not vid_out is None:
     vid_out.release()
 
 # move audio to new video file if appropriate
-if args.png == False and fpsNotAssigned == True and not args.video is None:
-    try:
-        transferAudio(args.video, vid_out_name)
-    except:
-        print("Audio transfer failed. Interpolated video will have no audio")
-        targetNoAudio = (
-            os.path.splitext(vid_out_name)[0]
-            + "_noaudio"
-            + os.path.splitext(vid_out_name)[1]
-        )
-        os.rename(targetNoAudio, vid_out_name)
+# if args.png == False and fpsNotAssigned == True and not args.video is None:
+#     try:
+#         transferAudio(args.video, vid_out_name)
+#     except:
+#         print("Audio transfer failed. Interpolated video will have no audio")
+#         targetNoAudio = (
+#             os.path.splitext(vid_out_name)[0]
+#             + "_noaudio"
+#             + os.path.splitext(vid_out_name)[1]
+#         )
+#         os.rename(targetNoAudio, vid_out_name)

@@ -12,7 +12,9 @@ networks:
 
 services:
   django:
-    build: ./builds/django
+    build:
+      context: ./builds/django
+      dockerfile: dockerfile
     ports:
       - 8000:8000
     volumes:
@@ -39,7 +41,9 @@ services:
     
 
   celery:
-    build: ./builds
+    build:
+      context: ./builds/django
+      dockerfile: dockerfile-celery
     volumes:
       - media:/media
       - ./logs/celery:/app/logs

@@ -56,7 +56,7 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Run tests
-        working-directory: builds/django
+        working-directory: builds
         run: |
           python manage.py migrate
           pytest

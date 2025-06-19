@@ -32,12 +32,12 @@ jobs:
 
       - name: Build and push Django image
         run: |
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest ./builds/django
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest -f ./builds/django/dockerfile ./builds/django
           docker push cr.yandex/${{ secrets.YC_REGISTRY }}/django-service:latest
 
       - name: Build and push Celery image
         run: |
-          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest ./builds
+          docker build -t cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest -f ./builds/django/dockerfile-celery ./builds/django
           docker push cr.yandex/${{ secrets.YC_REGISTRY }}/celery-service:latest
 
       - name: Build and push RIFE image
