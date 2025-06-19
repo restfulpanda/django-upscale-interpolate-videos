@@ -30,9 +30,7 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
         "output_path": output_path,
     }
     try:
-        response = requests.post(
-            "http://practical-rife:5000/interpolate", json=payload, timeout=60
-        )
+        response = requests.post("http://practical-rife:5000/interpolate", json=payload)
         response.raise_for_status()
 
     except requests.exceptions.RequestException as e:
@@ -74,7 +72,7 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
         "output_path": output_path,
     }
     try:
-        response = requests.post("http://esrgan:5001/upscale", json=payload, timeout=60)
+        response = requests.post("http://esrgan:5001/upscale", json=payload)
         response.raise_for_status()
 
     except requests.exceptions.RequestException as e:

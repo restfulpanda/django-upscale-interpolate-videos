@@ -12,7 +12,7 @@ networks:
 
 services:
   django:
-    image: cr.yandex/${YC_REGISTRY}/django-service:latest
+    build: ./builds/django
     ports:
       - 8000:8000
     volumes:
@@ -39,7 +39,7 @@ services:
     
 
   celery:
-    image: cr.yandex/${YC_REGISTRY}/celery-service:latest
+    build: ./builds
     volumes:
       - media:/media
       - ./logs/celery:/app/logs
@@ -58,7 +58,7 @@ services:
       - app_network
 
   practical-rife:
-    image: cr.yandex/${YC_REGISTRY}/rife-service:latest
+    build: ./builds/rife
     ports:
       - 5000:5000
     volumes:
@@ -77,7 +77,7 @@ services:
     runtime: nvidia
   
   esrgan:
-    image: cr.yandex/${YC_REGISTRY}/esrgan-service:latest
+    build: ./builds/esrgan
     ports:
       - 5001:5001
     volumes:
