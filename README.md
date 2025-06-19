@@ -15,6 +15,13 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 ---
 
+### 🧠 Machine Learning Models
+
+* 🌀 [RIFE - Real-Time Intermediate Flow Estimation](https://github.com/hzwer/Practical-RIFE)
+* 📈 [Real-ESRGAN - Real Enhanced Super-Resolution Generative Adversarial Network](https://github.com/xinntao/Real-ESRGAN)
+
+---
+
 ### 📂 Project Structure
 
 ```
@@ -126,21 +133,6 @@ curl http://localhost:8000/videos/status/<task_id> \
 # Download final result
 curl -O http://localhost:8000/videos/download/<video_id>
 ```
-
-### 📚 Swagger API Documentation
-
-Explore and test the API in browser:
-
-🔗 [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
-
-Powered by `drf-yasg`.
-
----
-
-### 🧠 Machine Learning Models
-
-* 🌀 [RIFE - Real-Time Intermediate Flow Estimation](https://github.com/hzwer/Practical-RIFE)
-* 📈 [Real-ESRGAN - Real Enhanced Super-Resolution Generative Adversarial Network](https://github.com/xinntao/Real-ESRGAN)
 
 ---
 
