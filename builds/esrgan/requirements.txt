@@ -6,3 +6,4 @@ numpy==1.26.*
 opencv-python
 Pillow
 tqdm
+ffmpeg-python
