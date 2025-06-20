@@ -70,12 +70,12 @@ services:
     environment:
         - NVIDIA_VISIBLE_DEVICES=all
     deploy:
-        resources:
-          reservations:
-            devices:
-              - driver: nvidia
-                count: 1
-                capabilities: [gpu]
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     networks:
         - app_network
     runtime: nvidia
@@ -89,12 +89,12 @@ services:
     environment:
         - NVIDIA_VISIBLE_DEVICES=all
     deploy:
-        resources:
-          reservations:
-            devices:
-              - driver: nvidia
-                count: 1
-                capabilities: [gpu]
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     networks:
         - app_network
     runtime: nvidia
