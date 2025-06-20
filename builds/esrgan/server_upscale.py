@@ -46,7 +46,7 @@ def interpolate():
         logger.info("Starting video upscale...")
         input_path = request.json.get("input_path")
         output_path = request.json.get("output_path")
-        scale = request.json.get("multi", 2)
+        scale = request.json.get("scale", 2)
 
         sep = "/" if "/" in output_path else "\\"
         path_parts = output_path.split(sep)

@@ -20,7 +20,9 @@ class VideoUploadAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         video = serializer.save(owner=self.request.user)
-        task = process_video.delay(video.id)
+        iscale = self.request.data.get("iscale", 2)
+        uscale = self.request.data.get("uscale", 2)
+        task = process_video.delay(video.id, iscale=iscale, uscale=uscale)
 
         self.response_data = {
             "video_id": video.id,
@@ -47,4 +49,4 @@ class VideoDownloadAPIView(APIView):
         if os.path.exists(video_path):
             return FileResponse(open(video_path, "rb"), content_type="video/mp4")
 
-        raise Response({"detail": "File not found."}, status=404)
+        raise Http404("File not found.")

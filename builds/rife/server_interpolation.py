@@ -42,7 +42,7 @@ def interpolate():
 
         input_path = request.json.get("input_path")
         output_path = request.json.get("output_path")
-        scale = request.json.get("multi", 2)
+        scale = request.json.get("scale", 2)
 
         logger.info(f"Path to the file: {input_path}")
 

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def _call_interpolation_server(video: Video, input_path: str, output_path: str) -> str:
+def _call_interpolation_server(video: Video, input_path: str, output_path: str, scale: int) -> str:
     """
     Calls the video interpolation server and returns the path to the processed file.
 
@@ -17,7 +17,7 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
         video: Video object to update the status of
         input_path: Path to the input video file
         output_path: Path to save the result
-
+        scale: Interpolation scale
     Returns:
         Path to the processed video file
 
@@ -28,6 +28,7 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
     payload = {
         "input_path": input_path,
         "output_path": output_path,
+        "scale": scale,
     }
     try:
         response = requests.post("http://practical-rife:5000/interpolate", json=payload)
@@ -49,7 +50,7 @@ def _call_interpolation_server(video: Video, input_path: str, output_path: str) 
         raise Exception(error_msg) from e
 
 
-def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str:
+def _call_upscale_server(video: Video, input_path: str, output_path: str, scale: int) -> str:
     """
     Calls the video upscale server and returns the path to the processed file.
 
@@ -57,7 +58,7 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
         video: Video object to update the status of
         input_path: Path to the input video file
         output_path: Path to save the result
-
+        scale: Upscale scale
     Returns:
         Path to the processed video file
 
@@ -68,6 +69,7 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
     payload = {
         "input_path": input_path,
         "output_path": output_path,
+        "scale": scale,
     }
     try:
         response = requests.post("http://esrgan:5001/upscale", json=payload)
@@ -90,14 +92,15 @@ def _call_upscale_server(video: Video, input_path: str, output_path: str) -> str
 
 
 @shared_task
-def process_video(video_id) -> dict:
+def process_video(video_id, iscale=2, uscale=2) -> dict:
     """
     Processes video interpolation and upscale using video_id to get original video path.
     Calls interpolation and upscale servers in same docker network.
 
     Args:
         video_id (int): ID of video to enhance FPS and resolution.
-
+        iscale (int): Interpolation scale.
+        uscale (int): Upscale scale.
     Returns:
         dict: Contains video ID and status.
     """
@@ -114,10 +117,10 @@ def process_video(video_id) -> dict:
         os.makedirs("/media/processed", exist_ok=True)
 
         interpolated_file_path = _call_interpolation_server(
-            video, input_path, interpolation_output_path
+            video, input_path, interpolation_output_path, iscale
         )
         interpolated_upscaled_file_path = _call_upscale_server(
-            video, interpolated_file_path, upscale_output_path
+            video, interpolated_file_path, upscale_output_path, uscale
         )
 
         video.status = "Done"
