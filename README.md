@@ -14,6 +14,21 @@
 The **django-upscale-interpolate-videos** project is a web application for video resolution enhancement and frame interpolation using machine learning models. The app is built with Django and packaged using Docker for simplified deployment and scalability.
 
 ---
+### 🎬 Demo
+
+<div align="center">
+
+| **Original Video** (15 FPS, Low Resolution)         | **Final Result x2** (30 FPS + High Resolution)   |
+|---------------------------------------------------- |------------------------------------------------- |
+| ![Original Video](assets/girl1.gif)                 | ![Final Result](assets/girl1_result.gif)         |
+| ![Original Video](assets/girl5.gif)                 | ![Final Result](assets/girl5_result.gif)         |
+| ![Original Video](assets/Snakes15FPS360p.gif)       | ![Final Result](assets/Snakes30FPS720p.gif)      |
+
+</div>
+
+> **Note:** The demo videos above showcase the transformation from a low-quality, low-frame-rate video to a high-quality, smooth video through our ML-powered processing pipeline.
+
+---
 
 ### 🧠 Machine Learning Models
 
