@@ -17,7 +17,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
     path("users/", include("authentication.urls", namespace="authentication")),
     path("videos/", include("logic.urls", namespace="process_videos")),
     path("videos/", include("tasks.urls", namespace="tasks")),

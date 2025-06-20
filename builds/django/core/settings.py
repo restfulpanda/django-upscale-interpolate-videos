@@ -176,12 +176,8 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
-    }
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    },
 }

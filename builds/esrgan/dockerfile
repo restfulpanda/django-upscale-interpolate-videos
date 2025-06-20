@@ -14,17 +14,13 @@ RUN apt-get update --fix-missing && \
         python3.11 \
         python3.11-dev \
         python3.11-distutils \
-        python3.11-venv \
-        ffmpeg \
-        git && \
+        python3.11-venv && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     python3.11 -m ensurepip --upgrade && \
     ln -s /usr/local/bin/pip /usr/bin/pip && \
     ln -s /usr/local/bin/pip3 /usr/bin/pip3
-
-WORKDIR /app
 
 COPY requirements.txt .
 RUN python3 -m pip install --upgrade pip && \
@@ -38,8 +34,8 @@ RUN pip install --pre --extra-index-url https://pypi.ngc.nvidia.com basicsr --ex
 
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
     
-COPY ./src/ ./src/
-COPY server_upscale.py .
+COPY ./src/ /app/src/
+COPY server_upscale.py /app/server_upscale.py
 
 FROM nvidia/cuda:12.4.0-base-ubuntu20.04
 
@@ -65,6 +61,7 @@ WORKDIR /app
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    PYTHONPATH=/app/src \
     FLASK_APP=server_upscale.py \
     FLASK_ENV=production
 
