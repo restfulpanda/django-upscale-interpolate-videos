@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: UIDataBase
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 111
+          POSTGRES_PASSWORD: ${{ secrets.SECRET_KEY }}
         ports:
           - 5432:5432
         options: >-
@@ -35,7 +35,7 @@ jobs:
       POSTGRES_PORT: 5432
       POSTGRES_DB: UIDataBase
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 111
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
       SECRET_KEY: ${{ secrets.SECRET_KEY }}

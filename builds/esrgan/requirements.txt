@@ -1,5 +1,4 @@
 flask
-requests
 
 facexlib>=0.2.5
 gfpgan>=1.3.5

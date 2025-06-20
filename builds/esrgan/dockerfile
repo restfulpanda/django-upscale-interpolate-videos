@@ -11,6 +11,11 @@ RUN apt-get update --fix-missing && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+        libglib2.0-0 \
+        libsm6 \
+        libxrender1 \
+        libxext6 \
+        gfortran \
         python3.11 \
         python3.11-dev \
         python3.11-distutils \
@@ -30,9 +35,10 @@ RUN python3 -m pip install --upgrade pip && \
         torchaudio==2.1.1 \
         --index-url https://download.pytorch.org/whl/cu118
 
-RUN pip install --pre --extra-index-url https://pypi.ngc.nvidia.com basicsr --exists-action i
+RUN pip install numpy scipy cython opencv-python-headless --exists-action i && \
+    pip install --no-cache-dir -v basicsr --exists-action i
 
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -v -r requirements.txt
     
 COPY ./src/ /app/src/
 COPY server_upscale.py /app/server_upscale.py
@@ -46,6 +52,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 COPY --from=builder /usr/lib/python3.11 /usr/lib/python3.11
 COPY --from=builder /usr/local/lib/python3.11/dist-packages /usr/local/lib/python3.11/dist-packages
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=builder /usr/bin/python3.11 /usr/bin/python3.11
 COPY --from=builder /usr/bin/python3 /usr/bin/python3
 COPY --from=builder /usr/local/bin /usr/local/bin

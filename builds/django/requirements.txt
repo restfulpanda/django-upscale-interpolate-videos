@@ -1,4 +1,5 @@
 django
+flask
 celery
 redis
 gunicorn
