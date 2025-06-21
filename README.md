@@ -18,13 +18,6 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 <div align="center">
 
-#### **Original Video** (15 FPS, HD)
-<video width="100%" controls><source src="assets/girl1_15FPS_HD.mp4" type="video/mp4">Your browser does not support the video tag.</video>
-
-#### **Processed x4** (60 FPS, 4K)
-<video width="100%" controls><source src="assets/girl1_60FPS_4K.mp4" type="video/mp4">Your browser does not support the video tag.</video>
-
----
 
 #### **Original Video** (15 FPS, HD)
 <video width="100%" controls><source src="assets/girl5_15FPS_HD.mp4" type="video/mp4">Your browser does not support the video tag.</video>
@@ -75,16 +68,16 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 ### ⚙️ Technologies Used
 
-| Component               | Purpose                                  |
-| ----------------------- | ---------------------------------------- |
-| **Python 3.11**         | Programming language                     |
-| **Django + DRF**        | Backend API                              |
-| **Celery + Redis**      | Asynchronous task queue                  |
-| **PostgreSQL**          | Database for users and video data        |
-| **RIFE (Flask)**        | Video frame interpolation (FPS increase) |
-| **Real-ESRGAN (Flask)** | Video upscaling (quality enhancement)    |
-| **Docker**              | Containerization of all services         |
-| **GitHub Actions**      | CI/CD pipelines                          |
+| Component                    | Purpose                                  |
+| ---------------------------- | ---------------------------------------- |
+| **Python 3.11**              | Programming language                     |
+| **Django + DRF**             | Backend API                              |
+| **Celery + Redis**           | Asynchronous task queue                  |
+| **PostgreSQL**               | Database for users and video data        |
+| **Practical-RIFE (Flask)**   | Video frame interpolation (FPS increase) |
+| **Real-ESRGAN (Flask)**      | Video upscaling (quality enhancement)    |
+| **Docker**                   | Containerization of all services         |
+| **GitHub Actions**           | CI/CD pipelines                          |
 
 ---
 
@@ -180,6 +173,14 @@ curl -O http://localhost:8000/videos/download/<video_id>
 ---
 
 ### 🧪 Running the Project Locally
+
+
+#### 🖥️ System Requirements
+
+**NVIDIA GPU Requirements:**
+- NVIDIA GPU with CUDA support
+- NVIDIA Driver version **450.80.02** or higher
+- CUDA Toolkit version **11.0** or higher (compatible with CUDA 12.4)
 
 #### 🔁 1. Clone the Repository
 
