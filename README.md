@@ -18,10 +18,19 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 <div align="center">
 
-| **Original Videos** (15 FPS, 1280x720)  | **Processed x4** (60 FPS, 3840x2160)  |
-|---------------------------------------- |-------------------------------------- |
-| ![Original](assets/girl1_15FPS_HD.gif)  | ![x4](assets/girl1_60FPS_4K.gif)      |
-| ![Original](assets/girl5_15FPS_HD.gif)  | ![x4](assets/girl5_60FPS_4K.gif)      |
+#### **Original Video** (15 FPS, HD)
+<video width="100%" controls><source src="assets/girl1_15FPS_HD.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+
+#### **Processed x4** (60 FPS, 4K)
+<video width="100%" controls><source src="assets/girl1_60FPS_4K.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+
+---
+
+#### **Original Video** (15 FPS, HD)
+<video width="100%" controls><source src="assets/girl5_15FPS_HD.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+
+#### **Processed x4** (60 FPS, 4K)
+<video width="100%" controls><source src="assets/girl5_60FPS_4K.mp4" type="video/mp4">Your browser does not support the video tag.</video>
 
 </div>
 
