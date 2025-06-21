@@ -18,12 +18,14 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 <div align="center">
 
-| **Original Videos** (15 FPS, 1280x720) | **Processed x2** (30 FPS, 1920x1080)  | **Processed x4** (60 FPS, 3840x2160)  |
-|--------------------------------------- |-------------------------------------- |-------------------------------------- |
-| ![Original](assets/girl1_15FPS_HD.gif) | ![x2](assets/girl1_30FPS_FullHD.gif)  | ![x4](assets/girl1_60FPS_4K.gif)      |
-| ![Original](assets/girl5_15FPS_HD.gif) | ![x2](assets/girl5_30FPS_FullHD.gif)  | ![x4](assets/girl5_60FPS_4K.gif)      |
+| **Original Videos** (15 FPS, 1280x720)  | **Processed x4** (60 FPS, 3840x2160)  |
+|---------------------------------------- |-------------------------------------- |
+| ![Original](assets/girl1_15FPS_HD.gif)  | ![x4](assets/girl1_60FPS_4K.gif)      |
+| ![Original](assets/girl5_15FPS_HD.gif)  | ![x4](assets/girl5_60FPS_4K.gif)      |
 
 </div>
+
+📁 [Download Demo Videos](https://drive.google.com/drive/folders/1DzsBGQrUqGh9fhe23dmQJ8fj4sGKAKbL?usp=sharing)
 
 > **Note:** The demo videos above showcase the transformation from a low-quality, low-frame-rate video to a high-quality, smooth video through our ML-powered processing pipeline.
 
