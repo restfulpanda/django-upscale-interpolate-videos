@@ -18,11 +18,10 @@ The **django-upscale-interpolate-videos** project is a web application for video
 
 <div align="center">
 
-| **Original Video** (15 FPS, Low Resolution)         | **Final Result x2** (30 FPS + High Resolution)   |
-|---------------------------------------------------- |------------------------------------------------- |
-| ![Original Video](assets/girl1.gif)                 | ![Final Result](assets/girl1_result.gif)         |
-| ![Original Video](assets/girl5.gif)                 | ![Final Result](assets/girl5_result.gif)         |
-| ![Original Video](assets/Snakes15FPS360p.gif)       | ![Final Result](assets/Snakes30FPS720p.gif)      |
+| **Original Videos** (15 FPS, 1280x720) | **Processed x2** (30 FPS, 1920x1080)  | **Processed x4** (60 FPS, 3840x2160)  |
+|--------------------------------------- |-------------------------------------- |-------------------------------------- |
+| ![Original](assets/girl1_15FPS_HD.gif) | ![x2](assets/girl1_30FPS_FullHD.gif)  | ![x4](assets/girl1_60FPS_4K.gif)      |
+| ![Original](assets/girl5_15FPS_HD.gif) | ![x2](assets/girl5_30FPS_FullHD.gif)  | ![x4](assets/girl5_60FPS_4K.gif)      |
 
 </div>
 
