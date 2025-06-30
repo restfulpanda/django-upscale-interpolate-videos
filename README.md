@@ -3,8 +3,8 @@
 <div align="center">
 
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-![CI Status](https://github.com/msrbl/django-upscale-interpolate-videos/actions/workflows/ci.yml/badge.svg)
-![CD Status](https://github.com/msrbl/django-upscale-interpolate-videos/actions/workflows/cd.yml/badge.svg)
+![CI Status](https://github.com/restfulpanda/django-upscale-interpolate-videos/actions/workflows/ci.yml/badge.svg)
+![CD Status](https://github.com/restfulpanda/django-upscale-interpolate-videos/actions/workflows/cd.yml/badge.svg)
 [![Django Image](https://img.shields.io/docker/image-size/do1lbyy/django-service)](https://hub.docker.com/r/do1lbyy/django-service)
 [![RIFE Image](https://img.shields.io/docker/image-size/do1lbyy/rife-service)](https://hub.docker.com/r/do1lbyy/rife-service)
 [![ESRGAN Image](https://img.shields.io/docker/image-size/do1lbyy/esrgan-service)](https://hub.docker.com/r/do1lbyy/esrgan-service)
@@ -185,7 +185,7 @@ curl -O http://localhost:8000/videos/download/<video_id>
 #### 🔁 1. Clone the Repository
 
 ```bash
-git clone https://github.com/msrbl/django-upscale-interpolate-videos.git
+git clone https://github.com/restfulpanda/django-upscale-interpolate-videos.git
 cd <repo-name>
 ```
 
